@@ -1,0 +1,64 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dist/
+
+# Next.js
+.next/
+out/
+.vercel/
+
+# Vercel
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# dotenv environment variables
+.env*
+!.env.example
+
+# Logs
+logs
+*.log
+*.log.*
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# TypeScript
+*.tsbuildinfo
+
+# Build outputs
+build/
+coverage/
+*.tsbuildinfo
+
+# Firebase
+.firebase/
+.firebaserc
+
+# Clerk
+.clerk/
+
+# LangChain / Pinecone cache (if used)
+__pycache__/
+*.cache/
+
+# Optional: Skip test coverage reports
+coverage/
+
+# Ignore next telemetry (optional)
+.next-tasks.json
