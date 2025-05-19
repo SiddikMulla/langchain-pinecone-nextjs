@@ -15,9 +15,9 @@ const PlaceholderDocuments = () => {
         <Button
             onClick={handleClick}
             className="flex flex-col items-center justify-center w-64 h-80
-          rounded-xl bg-gray-200 drop-shadow-md text-gray-400 cursor-pointer"
+          rounded-xl bg-gray-100 hover:bg-gray-300 drop-shadow-md text-gray-400 cursor-pointer"
         >
-            <PlusCircleIcon />
+            <PlusCircleIcon style={{ width: 49, height: 49 }} />
             <p>Add a Document</p>
         </Button>
     )
