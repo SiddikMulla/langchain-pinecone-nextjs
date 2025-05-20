@@ -1,6 +1,12 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { neobrutalism } from '@clerk/themes'
+
+export const metadata = {
+  title: 'Chat with PDF',
+  description: '',
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
