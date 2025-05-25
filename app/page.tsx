@@ -53,8 +53,8 @@ export default function Home() {
           <div className="bg-white py-24 sm:py-32 rounded-md drop-shadow-xl">
             <div className="flex flex-col justify-center items-center mx-auto max-w-7xl px-6 lg:px-8">
               <div className="mx-auto max-w-2xl sm:text-center">
-                <h2 className="text-base font-semibold leading-7 text-indigo-600">Your Interactive Document Companion</h2>
-                <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                <h2 className="text-base font-semibold leading-8 text-indigo-600">Your Interactive Document Companion</h2>
+                <p className="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-6xl">
                   Transform Your PDFs into Interactive Conversations
                 </p>
 
@@ -70,7 +70,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <Button asChild className="mt-10">
+              <Button asChild className="mt-10 p-5 text-md">
                 <Link href='/dashboard'>Get Started</Link>
               </Button>
             </div>
