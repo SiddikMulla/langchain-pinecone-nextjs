@@ -152,7 +152,7 @@ function useUpload() {
             // Add delay for embeddings generation (this actually takes time)
             await new Promise(resolve => setTimeout(resolve, 500));
 
-            // await generateEmbeddings(fileIdToUploadTo);
+            await generateEmbeddings(fileIdToUploadTo);
             setFileId(fileIdToUploadTo);
 
         } catch (error) {
