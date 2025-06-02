@@ -9,7 +9,7 @@ const Header = () => {
         <div className="flex justify-between p-4 px-32 border-b bg-white shadow-sm">
             <Link
                 href='/dashboard'
-                className="text-3xl font-semibold"
+                className="text-3xl font-extrabold"
             >
                 Chat to <span className="text-indigo-600">PDF</span>
             </Link>
