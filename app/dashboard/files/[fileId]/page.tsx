@@ -2,16 +2,17 @@ import { adminDatabases } from "@/lib/appwrite-admin";
 import { auth } from "@clerk/nextjs/server"
 import PdfView from "@/components/PdfView";
 import ChatScreen from "@/components/ChatScreen";
-interface Props {
+
+interface PageProps {
     params: {
-        fileId: string
-    }
+        fileId: string;
+    };
 }
 
-const ChatWithPDFPage = async (props: Props) => {
+const ChatWithPDFPage = async ({ params }: PageProps) => {
     auth.protect()
     // const { userId } = await auth();
-    const { fileId } = await props.params;
+    const { fileId } = params;
     const document = await adminDatabases.getDocument(
         process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
         process.env.NEXT_PUBLIC_APPWRITE_FILES_COLLECTION_ID!,
