@@ -11,7 +11,7 @@ const Header = () => {
                 href='/dashboard'
                 className="text-3xl font-extrabold"
             >
-                Chat to <span className="text-indigo-600">PDF</span>
+                <span className="text-indigo-600">Docu</span>Chat
             </Link>
             <SignedIn>
                 <div className="flex items-center space-x-5">

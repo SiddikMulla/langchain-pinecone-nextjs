@@ -11,7 +11,7 @@ import {
 } from "lucide-react"
 import Image from "next/image";
 import Link from "next/link";
-
+import landingIMG from '@/public/landing.png'
 const features = [
   {
     name: 'Store Your PDF Documents',
@@ -60,11 +60,11 @@ export default function Home() {
 
                 <p className="mt-6 text-lg leading-8 text-gray-600">
                   Introducing{" "}
-                  <span className="font-bold text-indigo-600">Chat with PDF</span>
+                  <span className="font-bold text-indigo-600">DocuChat</span>
                   <br /><br />
                   Upload Your document, and out chatbot will answer questions, summerise
                   content, and answer all your Qs. Ideal for everyone,<span className="text-indigo-600">
-                    Chat with PDF</span>{" "} turns static documents into{" "}
+                    DocuChat</span>{" "} turns static documents into{" "}
                   <span className="font-bold">dynamic conversation</span>,
                   enhancing productivity 10x fold effortlessly.
                 </p>
@@ -79,9 +79,9 @@ export default function Home() {
               <div className="mx-auto max-w-7xl px-7 lg:px-8">
                 <Image
                   alt="app screenshot"
-                  src='https://i.imgur.com/VciRSTI.jpeg'
-                  width={2432}
-                  height={1442}
+                  src={landingIMG}
+                  width={3532}
+                  height={1542}
                   className="mb-[-0%] rounded-xl shadow-xl ring-1
                  ring-gray-900/10"
                 />

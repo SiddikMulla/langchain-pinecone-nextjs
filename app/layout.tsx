@@ -3,7 +3,7 @@ import "./globals.css";
 import { neobrutalism } from '@clerk/themes'
 
 export const metadata = {
-  title: 'Chat with PDF',
+  title: 'DocuChat',
   description: '',
 };
 
