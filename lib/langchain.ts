@@ -19,6 +19,7 @@ import { CohereEmbeddings } from "@langchain/cohere";
 import { databases } from "./appwrite-client";
 import { Query } from "node-appwrite";
 import { ChatGroq } from "@langchain/groq";
+import { Document } from "@langchain/core/documents";
 
 // Optimized model configuration for faster responses
 const model = new ChatGroq({
@@ -40,7 +41,7 @@ const model = new ChatGroq({
 export const indexName = 'sidchat';
 
 // Cache for document retrieval to avoid repeated processing
-const documentCache = new Map<string, any>();
+const documentCache = new Map<string, Document[]>();
 const vectorStoreCache = new Map<string, PineconeStore>();
 
 export const generateDocs = async (docId: string) => {
@@ -183,7 +184,7 @@ export async function generateEmbeddingsInPinecone(docId: string) {
         vectorStoreCache.set(docId, pineconeVectorStore);
         return pineconeVectorStore;
     } else {
-        const splitDocs = await generateDocs(docId)
+        const splitDocs: any = await generateDocs(docId)
 
         console.log(
             `--- Storing the embeddings in namespace ${docId} in the ${indexName} Pinecone vector store... ---`
@@ -208,14 +209,14 @@ const generateLangchainCompletion = async (docId: string, question: string) => {
     try {
         console.log(`--- Starting completion for docId: ${docId}, question: ${question} ---`);
 
-        let pineconeVectorStore;
-        pineconeVectorStore = await generateEmbeddingsInPinecone(docId);
+        let pineconeVectorStoreforCompletion;
+        pineconeVectorStoreforCompletion = await generateEmbeddingsInPinecone(docId);
 
-        if (!pineconeVectorStore) throw new Error("pinecone vector not found")
+        if (!pineconeVectorStoreforCompletion) throw new Error("pinecone vector not found")
 
         // Create optimized retriever
         console.log("--creating a retriever---")
-        const retriever = pineconeVectorStore.asRetriever({
+        const retriever = pineconeVectorStoreforCompletion.asRetriever({
             k: 3, // Retrieve fewer documents for faster processing
             searchType: "similarity",
         });
@@ -228,14 +229,14 @@ const generateLangchainCompletion = async (docId: string, question: string) => {
 
         // Optimized prompt for faster, more focused responses
         const optimizedPrompt = ChatPromptTemplate.fromTemplate(`
-You are a helpful AI assistant. Answer the user's question based on the provided context.
-Be concise, accurate, and helpful. If the context doesn't contain enough information, say so clearly.
+            You are a helpful AI assistant. Answer the user's question based on the provided context.
+            Be concise, accurate, and helpful. If the context doesn't contain enough information, say so clearly.
 
-Context: {context}
+            Context: {context}
 
-Question: {input}
+            Question: {input}
 
-Answer (be concise and helpful):
+            Answer (be concise and helpful):
         `);
 
         const combineDocsChain = await createStuffDocumentsChain({
@@ -255,10 +256,11 @@ Answer (be concise and helpful):
             retrievalChain.invoke({
                 input: question,
             }),
-            new Promise((_, reject) =>
-                setTimeout(() => reject(new Error("Response timeout")), 30000) // 30 second timeout
+            new Promise<never>((_, reject) =>
+                setTimeout(() => reject(new Error("Response timeout")), 30000)
             )
-        ]) as any;
+        ]);
+
 
         console.log("--- Chain response received ---");
 
@@ -268,15 +270,17 @@ Answer (be concise and helpful):
             return "I couldn't find a relevant answer in the document. Could you please rephrase your question?";
         }
 
-    } catch (error: any) {
-        console.error("--- Error in generateLangchainCompletion:", error, "---");
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.error("--- Error in generateLangchainCompletion:", error, "---");
 
-        // Provide more helpful error messages
-        if (error.message.includes("timeout")) {
-            return "I'm taking longer than usual to respond. Please try asking a simpler question or try again.";
+            // Provide more helpful error messages
+            if (error.message.includes("timeout")) {
+                return "I'm taking longer than usual to respond. Please try asking a simpler question or try again.";
+            }
+
+            return `I encountered an issue processing your question. Please try rephrasing it or try again. Error: ${error.message}`;
         }
-
-        return `I encountered an issue processing your question. Please try rephrasing it or try again. Error: ${error.message}`;
     }
 };
 
