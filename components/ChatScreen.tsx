@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Badge } from "./ui/badge"
 import { Loader2Icon, SendIcon, AlertCircle, Bot, User, Sparkles, Copy, ThumbsUp, ThumbsDown, CloudCog } from "lucide-react"
 import { useUser } from "@clerk/nextjs"
-import { databases, ID, Query } from "@/lib/appwrite-client"
+import { databases, Query } from "@/lib/appwrite-client"
 import { FormEvent, useEffect, useState, useTransition, useRef } from "react"
 import { askQuestion } from "@/actions/askQuestion"
 import ReactMarkdown from 'react-markdown'

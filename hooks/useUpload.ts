@@ -13,7 +13,7 @@ export enum StatusText {
     GENERATING = "Generating AI Embeddings, This will only take a few seconds...",
 }
 
-export type Status = StatusText[keyof StatusText];
+export type Status = StatusText;
 
 // Configuration constants
 const DATABASE_ID = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!;
@@ -25,7 +25,6 @@ function useUpload() {
     const [fileId, setFileId] = useState<string | null>(null);
     const [status, setStatus] = useState<Status | null>(null);
     const { user } = useUser();
-    const router = useRouter();
 
     // Realistic progress simulation based on file size
     const simulateRealisticProgress = (file: File) => {

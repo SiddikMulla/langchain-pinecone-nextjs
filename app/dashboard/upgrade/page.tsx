@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import { Check, FileText, MessageSquare, Zap, Clock, Star, Users } from 'lucide-react';
+import { Check, FileText, Zap, Clock, Star, Users } from 'lucide-react';
 
 const PricingSection = () => {
     const [isAnnual, setIsAnnual] = useState(false);
