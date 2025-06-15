@@ -209,8 +209,7 @@ const generateLangchainCompletion = async (docId: string, question: string) => {
     try {
         console.log(`--- Starting completion for docId: ${docId}, question: ${question} ---`);
 
-        let pineconeVectorStoreforCompletion;
-        pineconeVectorStoreforCompletion = await generateEmbeddingsInPinecone(docId);
+        const pineconeVectorStoreforCompletion = await generateEmbeddingsInPinecone(docId);
 
         if (!pineconeVectorStoreforCompletion) throw new Error("pinecone vector not found")
 

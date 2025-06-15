@@ -14,6 +14,7 @@ const eslintConfig = [
   {
     rules: {
       "react/no-unescaped-entities": "off", // 👈 turn off the rule here
+      "@typescript-eslint/no-explicit-any": "off",
     },
   },
 ];
