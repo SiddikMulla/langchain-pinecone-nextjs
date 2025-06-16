@@ -28,8 +28,8 @@ export async function POST(req: Request) {
                     quantity: 1,
                 },
             ],
-            success_url: 'http://localhost:3000/success',
-            cancel_url: 'http://localhost:3000/cancel',
+            success_url: 'https://chat.siddik.site/success',
+            cancel_url: 'https://chat.siddik.site/cancel',
         });
 
         return NextResponse.json({ id: session.id });
