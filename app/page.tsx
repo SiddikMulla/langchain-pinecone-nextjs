@@ -18,7 +18,7 @@ import {
 } from "lucide-react"
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import landingIMG from '@/public/landing.png'
 
 const features = [
@@ -61,35 +61,35 @@ const benefits = [
   "Enterprise-grade security and compliance"
 ]
 
-// Demo steps data - you can replace these with your actual GIF URLs
+// Demo steps data with MP4 videos
 const demoSteps = [
   {
     id: 1,
-    title: "Upload Your Documents",
-    description: "Simply drag and drop your PDF files or click to browse and upload from your device.",
-    gifUrl: "/demo-gifs/step1-upload.gif", // Replace with your actual GIF path
-    duration: 4000 // 4 seconds
+    title: "Get Started with Login Into Dashboard",
+    description: "Click on get started and get authenticate and navigate to dashboardy.",
+    videoUrl: "/1.mp4", // Updated to match your file structure
+    autoAdvanceDelay: 8000 // 8 seconds - longer for video content
   },
   {
     id: 2,
-    title: "AI Processing",
-    description: "Our advanced AI analyzes your document structure and content for intelligent interaction.",
-    gifUrl: "/demo-gifs/step2-processing.gif", // Replace with your actual GIF path
-    duration: 3000 // 3 seconds
+    title: "Upload Your Documents",
+    description: "Simply drag and drop your PDF files or click to browse and upload from your device.",
+    videoUrl: "/2.mp4", // Replace with your actual video path
+    autoAdvanceDelay: 6000 // 6 seconds
   },
   {
     id: 3,
     title: "Start Conversations",
     description: "Ask questions about your document content and get instant, accurate responses.",
-    gifUrl: "/demo-gifs/step3-chat.gif", // Replace with your actual GIF path
-    duration: 5000 // 5 seconds
+    videoUrl: "/3.mp4", // Replace with your actual video path
+    autoAdvanceDelay: 10000 // 10 seconds
   },
   {
     id: 4,
-    title: "Extract Insights",
-    description: "Get summaries, key points, and detailed analysis from your documents effortlessly.",
-    gifUrl: "/demo-gifs/step4-insights.gif", // Replace with your actual GIF path
-    duration: 4000 // 4 seconds
+    title: "Upgrade Your Plan",
+    description: "Unlimited PDF uploads, No page limit per PDF, Unlimited messages, Advanced AI responses.",
+    videoUrl: "/4.mp4", // Replace with your actual video path
+    autoAdvanceDelay: 8000 // 8 seconds
   }
 ];
 
@@ -98,45 +98,119 @@ function DemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const autoAdvanceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Auto-advance to next step
+  // Clean up intervals and timeouts
+  const cleanupTimers = () => {
+    if (progressIntervalRef.current) {
+      clearInterval(progressIntervalRef.current);
+      progressIntervalRef.current = null;
+    }
+    if (autoAdvanceTimeoutRef.current) {
+      clearTimeout(autoAdvanceTimeoutRef.current);
+      autoAdvanceTimeoutRef.current = null;
+    }
+  };
+
+  // Handle video events and progress tracking
   useEffect(() => {
-    if (!isOpen || !isPlaying) return;
+    if (!isOpen) return;
 
-    const currentStepData = demoSteps[currentStep];
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        const newProgress = prev + (100 / (currentStepData.duration / 100));
-        if (newProgress >= 200) {
-          // Move to next step
-          setCurrentStep((prevStep) => {
-            const nextStep = (prevStep + 1) % demoSteps.length;
-            return nextStep;
-          });
-          return 0;
-        }
-        return newProgress;
-      });
-    }, 100);
+    const video = videoRef.current;
+    if (!video) return;
 
-    return () => clearInterval(interval);
+    const handleVideoLoad = () => {
+      if (isPlaying) {
+        video.play().catch(console.error);
+      }
+    };
+
+    const handleVideoEnded = () => {
+      // Auto-advance to next step when video ends
+      setCurrentStep((prevStep) => (prevStep + 1) % demoSteps.length);
+    };
+
+    const updateProgress = () => {
+      if (video.duration && video.currentTime) {
+        const progressPercent = (video.currentTime / video.duration) * 100;
+        setProgress(progressPercent);
+      }
+    };
+
+    video.addEventListener('loadeddata', handleVideoLoad);
+    video.addEventListener('ended', handleVideoEnded);
+    video.addEventListener('timeupdate', updateProgress);
+
+    // Fallback auto-advance in case video doesn't load or play
+    if (isPlaying) {
+      autoAdvanceTimeoutRef.current = setTimeout(() => {
+        setCurrentStep((prevStep) => (prevStep + 1) % demoSteps.length);
+      }, demoSteps[currentStep].autoAdvanceDelay);
+    }
+
+    return () => {
+      video.removeEventListener('loadeddata', handleVideoLoad);
+      video.removeEventListener('ended', handleVideoEnded);
+      video.removeEventListener('timeupdate', updateProgress);
+      cleanupTimers();
+    };
   }, [currentStep, isOpen, isPlaying]);
 
-  // Reset progress when step changes
+  // Handle play/pause state changes
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isPlaying) {
+      video.play().catch(console.error);
+    } else {
+      video.pause();
+    }
+  }, [isPlaying]);
+
+  // Reset progress and video when step changes
   useEffect(() => {
     setProgress(0);
-  }, [currentStep]);
+    const video = videoRef.current;
+    if (video) {
+      // Force video to load new source
+      video.load();
+      video.currentTime = 0;
+      if (isPlaying) {
+        video.play().catch(console.error);
+      }
+    }
+  }, [currentStep, isPlaying]);
+
+  // Cleanup when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      cleanupTimers();
+      setProgress(0);
+      setCurrentStep(0);
+      setIsPlaying(true);
+    }
+  }, [isOpen]);
 
   const goToNextStep = () => {
+    cleanupTimers();
     setCurrentStep((prev) => (prev + 1) % demoSteps.length);
   };
 
   const goToPrevStep = () => {
+    cleanupTimers();
     setCurrentStep((prev) => (prev - 1 + demoSteps.length) % demoSteps.length);
   };
 
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);
+  };
+
+  const goToStep = (stepIndex: number) => {
+    cleanupTimers();
+    setCurrentStep(stepIndex);
   };
 
   if (!isOpen) return null;
@@ -152,18 +226,6 @@ function DemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
       {/* Modal */}
       <div className="relative w-full max-w-4xl mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">DocuChat Demo</h2>
-            <p className="text-gray-600 mt-1">See how DocuChat transforms your document workflow</p>
-          </div>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <XIcon className="h-6 w-6 text-gray-500" />
-          </button>
-        </div>
 
         {/* Content */}
         <div className="p-6">
@@ -177,7 +239,7 @@ function DemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
                 {demoSteps.map((_, index) => (
                   <button
                     key={index}
-                    onClick={() => setCurrentStep(index)}
+                    onClick={() => goToStep(index)}
                     className={`w-2 h-2 rounded-full transition-colors ${index === currentStep ? 'bg-indigo-600' : 'bg-gray-300'
                       }`}
                   />
@@ -216,44 +278,44 @@ function DemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
           <div className="mb-6">
             <div className="w-full bg-gray-200 rounded-full h-1">
               <div
-                className="bg-indigo-600 h-1 rounded-full transition-all duration-100 ease-linear"
+                className="bg-indigo-600 h-1 rounded-full transition-all duration-300 ease-out"
                 style={{ width: `${progress}%` }}
               />
             </div>
           </div>
 
           {/* Demo Content */}
-          <div className="grid md:grid-cols-2 gap-8 items-center min-h-[400px]">
-            {/* GIF/Image Display */}
-            <div className="relative bg-gray-50 rounded-xl overflow-hidden">
-              <div className="aspect-video flex items-center justify-center">
-                {/* Replace this div with your actual GIF */}
-                <div className="w-full h-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-indigo-200 rounded-full flex items-center justify-center mb-4 mx-auto">
-                      <span className="text-2xl font-bold text-indigo-600">{currentStep + 1}</span>
+          <div className="grid md:grid-cols-1 gap-8 items-center min-h-[00px]">
+            {/* Video Display */}
+            <div className="relative bg-gray-50 border-2 rounded-xl overflow-hidden">
+              <div className="aspect-video">
+                <video
+                  ref={videoRef}
+                  className="w-full h-full object-cover rounded-xl"
+                  muted
+                  loop={false}
+                  playsInline
+                  preload="metadata"
+                  key={currentStep} // Force re-render when step changes
+                >
+                  <source src={demoSteps[currentStep].videoUrl} type="video/mp4" />
+                  <div className="w-full h-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="w-16 h-16 bg-indigo-200 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <span className="text-2xl font-bold text-indigo-600">{currentStep + 1}</span>
+                      </div>
+                      <p className="text-gray-600">Video not available</p>
+                      <p className="text-sm text-gray-500 mt-2">
+                        {demoSteps[currentStep].videoUrl}
+                      </p>
                     </div>
-                    <p className="text-gray-600">
-                      GIF: {demoSteps[currentStep].gifUrl}
-                    </p>
-                    <p className="text-sm text-gray-500 mt-2">
-                      Replace this placeholder with your actual GIF
-                    </p>
                   </div>
-                </div>
-                {/* Uncomment this when you have actual GIFs */}
-                {/* <Image
-                  src={demoSteps[currentStep].gifUrl}
-                  alt={demoSteps[currentStep].title}
-                  width={600}
-                  height={400}
-                  className="w-full h-full object-cover"
-                /> */}
+                </video>
               </div>
             </div>
 
             {/* Step Description */}
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-3">
                   {demoSteps[currentStep].title}
@@ -264,18 +326,18 @@ function DemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
               </div>
 
               {/* Feature highlights for current step */}
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <h4 className="font-semibold text-gray-900">Key Features:</h4>
                 <div className="space-y-2">
                   {currentStep === 0 && (
                     <>
                       <div className="flex items-center gap-2 text-gray-600">
                         <CheckCircleIcon className="h-4 w-4 text-green-500" />
-                        <span>Drag & drop interface</span>
+                        <span>Authenticate with Your Email</span>
                       </div>
                       <div className="flex items-center gap-2 text-gray-600">
                         <CheckCircleIcon className="h-4 w-4 text-green-500" />
-                        <span>Multiple file format support</span>
+                        <span>Secure session for user</span>
                       </div>
                     </>
                   )}
@@ -283,11 +345,11 @@ function DemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
                     <>
                       <div className="flex items-center gap-2 text-gray-600">
                         <CheckCircleIcon className="h-4 w-4 text-green-500" />
-                        <span>AI-powered content analysis</span>
+                        <span>Drag n Drop Your pdf to secure cloud</span>
                       </div>
                       <div className="flex items-center gap-2 text-gray-600">
                         <CheckCircleIcon className="h-4 w-4 text-green-500" />
-                        <span>Intelligent indexing</span>
+                        <span>Vector Embedding</span>
                       </div>
                     </>
                   )}
@@ -307,11 +369,11 @@ function DemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
                     <>
                       <div className="flex items-center gap-2 text-gray-600">
                         <CheckCircleIcon className="h-4 w-4 text-green-500" />
-                        <span>Automated summaries</span>
+                        <span>Secure Payment</span>
                       </div>
                       <div className="flex items-center gap-2 text-gray-600">
                         <CheckCircleIcon className="h-4 w-4 text-green-500" />
-                        <span>Key insight extraction</span>
+                        <span>Upgrade to Pro</span>
                       </div>
                     </>
                   )}
@@ -322,7 +384,7 @@ function DemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between p-6 bg-gray-50 border-t border-gray-200">
+        <div className="flex items-center justify-between p-3 bg-gray-50 border-t border-gray-200">
           <p className="text-sm text-gray-600">
             Ready to transform your document workflow?
           </p>
@@ -349,7 +411,7 @@ export default function Home() {
   return (
     <>
       <div className="flex-1 overflow-scroll p-2 lg:p-3 bg-gradient-to-bl from-white to-indigo-700">
-        <main className="flex-1 overflow-y-auto  bg-gradient-to-br from-slate-50 via-white to-slate-100">
+        <main className="flex-1 overflow-y-auto bg-gradient-to-br from-slate-50 via-white to-slate-100">
           {/* Hero Section */}
           <section className="relative px-4 pt-16 pb-20 sm:px-6 lg:px-8 lg:pt-24 lg:pb-28">
             <div className="mx-auto max-w-7xl">
