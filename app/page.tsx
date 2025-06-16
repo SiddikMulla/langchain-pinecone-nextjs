@@ -10,7 +10,6 @@ import {
   ZapIcon,
   ArrowRightIcon,
   CheckCircleIcon,
-  XIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   PlayIcon,
