@@ -135,7 +135,7 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {features.map((feature, index) => (
+              {features.map((feature) => (
                 <div
                   key={feature.name}
                   className="group relative rounded-2xl bg-white p-8 shadow-sm ring-1 ring-gray-200 hover:shadow-lg hover:ring-indigo-300 transition-all duration-300"
