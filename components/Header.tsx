@@ -29,7 +29,7 @@ const Header = () => {
                     <div className="hidden lg:flex items-center space-x-5">
                         <Button asChild variant='default'>
                             <Link href='/dashboard/upgrade'>
-                                <Crown className="w-4 h-4 mr-2" />
+                                <Crown className="w-4 h-4" />
                                 Pricing
                             </Link>
                         </Button>
@@ -73,7 +73,7 @@ const Header = () => {
                         <div className="flex flex-col space-y-2 p-4">
                             <Button asChild variant='default' className="w-full justify-start">
                                 <Link href='/dashboard/upgrade' onClick={() => setIsMobileMenuOpen(false)}>
-                                    <Crown className="w-4 h-4 mr-2" />
+                                    <Crown className="w-4 h-4" />
                                     Pricing
                                 </Link>
                             </Button>
