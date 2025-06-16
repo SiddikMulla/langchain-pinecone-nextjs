@@ -2,10 +2,12 @@
 
 import React, { useState } from 'react';
 import { Check, FileText, Zap, Clock, Star, Users } from 'lucide-react';
+import { loadStripe } from '@stripe/stripe-js';
 
 const PricingSection = () => {
     const [isAnnual, setIsAnnual] = useState(false);
 
+    const stripePromise = loadStripe('pk_test_51RahXgRI3stGNGdnGofuT5TJOcgIfYzfrWweYjPW6yNuTj4AiRn4qOJJrGMDnFbHs2z7WbM2CikaEYXCKFV6x6EV00BBzcBkGp')
     const plans = [
         {
             id: 'free',
@@ -169,12 +171,48 @@ const PricingSection = () => {
                                     ))}
                                 </div>
 
-                                <a
-                                    href={plan.buttonLink}
-                                    className={`w-full ${plan.buttonStyle} font-medium py-3 px-4 rounded-lg transition-colors inline-block text-center`}
-                                >
-                                    {plan.buttonText}
-                                </a>
+                                {plan.id === 'pro' ? (
+                                    <button
+                                        onClick={async () => {
+                                            const stripe = await stripePromise;
+                                            const res = await fetch('/api/create-checkout-session', {
+                                                method: 'POST',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify({ billing: isAnnual ? 'annual' : 'monthly' }),
+                                            });
+
+                                            console.log('ddshk', res)
+                                            if (!res.ok) {
+                                                const errText = await res.text();
+                                                console.error('API error:', errText);
+                                                return;
+                                            }
+
+                                            const data = await res.json();
+
+
+                                            if (stripe && data.id) {
+                                                const { error } = await stripe.redirectToCheckout({
+                                                    sessionId: data.id,
+                                                });
+                                                if (error) console.error('Stripe redirect error:', error.message);
+                                            } else {
+                                                console.error('Stripe or session ID missing');
+                                            }
+                                        }}
+                                        className={`w-full ${plan.buttonStyle} font-medium py-3 px-4 rounded-lg transition-colors inline-block text-center`}
+                                    >
+                                        {plan.buttonText}
+                                    </button>
+                                ) : (
+                                    <a
+                                        href={plan.buttonLink}
+                                        className={`w-full ${plan.buttonStyle} font-medium py-3 px-4 rounded-lg transition-colors inline-block text-center`}
+                                    >
+                                        {plan.buttonText}
+                                    </a>
+                                )}
+
                             </div>
                         );
                     })}
