@@ -9,10 +9,16 @@ import {
   ServerCogIcon,
   ZapIcon,
   ArrowRightIcon,
-  CheckCircleIcon
+  CheckCircleIcon,
+  XIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  PlayIcon,
+  PauseIcon
 } from "lucide-react"
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import landingIMG from '@/public/landing.png'
 
 const features = [
@@ -55,7 +61,291 @@ const benefits = [
   "Enterprise-grade security and compliance"
 ]
 
+// Demo steps data - you can replace these with your actual GIF URLs
+const demoSteps = [
+  {
+    id: 1,
+    title: "Upload Your Documents",
+    description: "Simply drag and drop your PDF files or click to browse and upload from your device.",
+    gifUrl: "/demo-gifs/step1-upload.gif", // Replace with your actual GIF path
+    duration: 4000 // 4 seconds
+  },
+  {
+    id: 2,
+    title: "AI Processing",
+    description: "Our advanced AI analyzes your document structure and content for intelligent interaction.",
+    gifUrl: "/demo-gifs/step2-processing.gif", // Replace with your actual GIF path
+    duration: 3000 // 3 seconds
+  },
+  {
+    id: 3,
+    title: "Start Conversations",
+    description: "Ask questions about your document content and get instant, accurate responses.",
+    gifUrl: "/demo-gifs/step3-chat.gif", // Replace with your actual GIF path
+    duration: 5000 // 5 seconds
+  },
+  {
+    id: 4,
+    title: "Extract Insights",
+    description: "Get summaries, key points, and detailed analysis from your documents effortlessly.",
+    gifUrl: "/demo-gifs/step4-insights.gif", // Replace with your actual GIF path
+    duration: 4000 // 4 seconds
+  }
+];
+
+// Demo Modal Component
+function DemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [progress, setProgress] = useState(0);
+
+  // Auto-advance to next step
+  useEffect(() => {
+    if (!isOpen || !isPlaying) return;
+
+    const currentStepData = demoSteps[currentStep];
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        const newProgress = prev + (100 / (currentStepData.duration / 100));
+        if (newProgress >= 200) {
+          // Move to next step
+          setCurrentStep((prevStep) => {
+            const nextStep = (prevStep + 1) % demoSteps.length;
+            return nextStep;
+          });
+          return 0;
+        }
+        return newProgress;
+      });
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [currentStep, isOpen, isPlaying]);
+
+  // Reset progress when step changes
+  useEffect(() => {
+    setProgress(0);
+  }, [currentStep]);
+
+  const goToNextStep = () => {
+    setCurrentStep((prev) => (prev + 1) % demoSteps.length);
+  };
+
+  const goToPrevStep = () => {
+    setCurrentStep((prev) => (prev - 1 + demoSteps.length) % demoSteps.length);
+  };
+
+  const togglePlayPause = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        onClick={onClose}
+      />
+
+      {/* Modal */}
+      <div className="relative w-full max-w-4xl mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden">
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">DocuChat Demo</h2>
+            <p className="text-gray-600 mt-1">See how DocuChat transforms your document workflow</p>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <XIcon className="h-6 w-6 text-gray-500" />
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="p-6">
+          {/* Step Counter */}
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-gray-500">
+                Step {currentStep + 1} of {demoSteps.length}
+              </span>
+              <div className="flex gap-1">
+                {demoSteps.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentStep(index)}
+                    className={`w-2 h-2 rounded-full transition-colors ${index === currentStep ? 'bg-indigo-600' : 'bg-gray-300'
+                      }`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Controls */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={goToPrevStep}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <ChevronLeftIcon className="h-5 w-5 text-gray-600" />
+              </button>
+              <button
+                onClick={togglePlayPause}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                {isPlaying ? (
+                  <PauseIcon className="h-5 w-5 text-gray-600" />
+                ) : (
+                  <PlayIcon className="h-5 w-5 text-gray-600" />
+                )}
+              </button>
+              <button
+                onClick={goToNextStep}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <ChevronRightIcon className="h-5 w-5 text-gray-600" />
+              </button>
+            </div>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="mb-6">
+            <div className="w-full bg-gray-200 rounded-full h-1">
+              <div
+                className="bg-indigo-600 h-1 rounded-full transition-all duration-100 ease-linear"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Demo Content */}
+          <div className="grid md:grid-cols-2 gap-8 items-center min-h-[400px]">
+            {/* GIF/Image Display */}
+            <div className="relative bg-gray-50 rounded-xl overflow-hidden">
+              <div className="aspect-video flex items-center justify-center">
+                {/* Replace this div with your actual GIF */}
+                <div className="w-full h-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-indigo-200 rounded-full flex items-center justify-center mb-4 mx-auto">
+                      <span className="text-2xl font-bold text-indigo-600">{currentStep + 1}</span>
+                    </div>
+                    <p className="text-gray-600">
+                      GIF: {demoSteps[currentStep].gifUrl}
+                    </p>
+                    <p className="text-sm text-gray-500 mt-2">
+                      Replace this placeholder with your actual GIF
+                    </p>
+                  </div>
+                </div>
+                {/* Uncomment this when you have actual GIFs */}
+                {/* <Image
+                  src={demoSteps[currentStep].gifUrl}
+                  alt={demoSteps[currentStep].title}
+                  width={600}
+                  height={400}
+                  className="w-full h-full object-cover"
+                /> */}
+              </div>
+            </div>
+
+            {/* Step Description */}
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                  {demoSteps[currentStep].title}
+                </h3>
+                <p className="text-lg text-gray-600 leading-relaxed">
+                  {demoSteps[currentStep].description}
+                </p>
+              </div>
+
+              {/* Feature highlights for current step */}
+              <div className="space-y-3">
+                <h4 className="font-semibold text-gray-900">Key Features:</h4>
+                <div className="space-y-2">
+                  {currentStep === 0 && (
+                    <>
+                      <div className="flex items-center gap-2 text-gray-600">
+                        <CheckCircleIcon className="h-4 w-4 text-green-500" />
+                        <span>Drag & drop interface</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-gray-600">
+                        <CheckCircleIcon className="h-4 w-4 text-green-500" />
+                        <span>Multiple file format support</span>
+                      </div>
+                    </>
+                  )}
+                  {currentStep === 1 && (
+                    <>
+                      <div className="flex items-center gap-2 text-gray-600">
+                        <CheckCircleIcon className="h-4 w-4 text-green-500" />
+                        <span>AI-powered content analysis</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-gray-600">
+                        <CheckCircleIcon className="h-4 w-4 text-green-500" />
+                        <span>Intelligent indexing</span>
+                      </div>
+                    </>
+                  )}
+                  {currentStep === 2 && (
+                    <>
+                      <div className="flex items-center gap-2 text-gray-600">
+                        <CheckCircleIcon className="h-4 w-4 text-green-500" />
+                        <span>Natural language queries</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-gray-600">
+                        <CheckCircleIcon className="h-4 w-4 text-green-500" />
+                        <span>Contextual understanding</span>
+                      </div>
+                    </>
+                  )}
+                  {currentStep === 3 && (
+                    <>
+                      <div className="flex items-center gap-2 text-gray-600">
+                        <CheckCircleIcon className="h-4 w-4 text-green-500" />
+                        <span>Automated summaries</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-gray-600">
+                        <CheckCircleIcon className="h-4 w-4 text-green-500" />
+                        <span>Key insight extraction</span>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="flex items-center justify-between p-6 bg-gray-50 border-t border-gray-200">
+          <p className="text-sm text-gray-600">
+            Ready to transform your document workflow?
+          </p>
+          <div className="flex gap-3">
+            <Button variant="outline" onClick={onClose}>
+              Close Demo
+            </Button>
+            <Button asChild className="bg-indigo-600 hover:bg-indigo-700">
+              <Link href='/dashboard' className="flex items-center gap-2">
+                Get Started Free
+                <ArrowRightIcon className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
+  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+
   return (
     <>
       <div className="flex-1 overflow-scroll p-2 lg:p-3 bg-gradient-to-bl from-white to-indigo-700">
@@ -87,7 +377,12 @@ export default function Home() {
                       <ArrowRightIcon className="h-5 w-5" />
                     </Link>
                   </Button>
-                  <Button variant="outline" size="lg" className="px-8 py-3 text-lg font-medium rounded-lg border-2 border-gray-300 hover:border-indigo-300 transition-colors">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={() => setIsDemoModalOpen(true)}
+                    className="px-8 py-3 text-lg font-medium rounded-lg border-2 border-gray-300 hover:border-indigo-300 transition-colors"
+                  >
                     Watch Demo
                   </Button>
                 </div>
@@ -157,37 +452,14 @@ export default function Home() {
               </div>
             </div>
           </section>
-
-          {/* Stats Section */}
-          <section className="px-4 py-20 sm:px-6 lg:px-8 bg-gradient-to-r from-indigo-600 to-purple-600">
-            <div className="mx-auto max-w-7xl">
-              <div className="text-center">
-                <h2 className="text-3xl font-bold text-white sm:text-4xl">
-                  Trusted by professionals worldwide
-                </h2>
-                <div className="mt-12 grid grid-cols-2 gap-8 sm:grid-cols-4">
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-white lg:text-5xl">1K+</div>
-                    <div className="mt-2 text-indigo-100">Active Users</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-white lg:text-5xl">1M+</div>
-                    <div className="mt-2 text-indigo-100">Documents Processed</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-white lg:text-5xl">99.9%</div>
-                    <div className="mt-2 text-indigo-100">Uptime</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-white lg:text-5xl">24/7</div>
-                    <div className="mt-2 text-indigo-100">Support</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
         </main>
       </div>
+
+      {/* Demo Modal */}
+      <DemoModal
+        isOpen={isDemoModalOpen}
+        onClose={() => setIsDemoModalOpen(false)}
+      />
     </>
   );
 }
