@@ -40,7 +40,7 @@ export default function SuccessPage() {
                     You've unlocked <span className="text-blue-600 dark:text-blue-400 font-medium">Pro Access</span> 🚀
                 </p>
                 <div className="mt-6">
-                    <Link href="/">
+                    <Link href="/dashboard">
                         <Button size="lg" className="w-full">
                             Go to Dashboard
                         </Button>
