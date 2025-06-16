@@ -2,10 +2,11 @@ import { adminDatabases } from "@/lib/appwrite-admin";
 import { auth } from "@clerk/nextjs/server"
 import PdfView from "@/components/PdfView";
 import ChatScreen from "@/components/ChatScreen";
+
 interface Props {
-    params: {
+    params: Promise<{
         fileId: string
-    }
+    }>
 }
 const ChatWithPDFPage = async ({ params }: Props) => {
     auth.protect()
