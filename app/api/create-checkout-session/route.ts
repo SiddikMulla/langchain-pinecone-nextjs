@@ -11,7 +11,7 @@ export async function POST(req: Request) {
         const body = await req.json();
         const { billing } = body;
 
-        const amount = billing === 'annual' ? 800 : 1000; // in cents
+        const amount = billing === 'annual' ? 9600 : 1000; // in cents
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
