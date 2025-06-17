@@ -167,7 +167,7 @@ const DocumentCard = ({ document, onDeleted }: DocumentCardProps) => {
                     <Button
                         onClick={handleView}
                         size="sm"
-                        className="bg-indigo-700 hover:bg-indigo-800 text-white flex-1 mr-2"
+                        className="bg-indigo-700 hover:bg-indigo-900 cursor-pointer text-white flex-1 mr-2"
                     >
                         <EyeIcon className="h-4 w-4 mr-1" />
                     </Button>
