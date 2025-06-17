@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import StructuredData from "@/components/StructuredData";
 
 export const metadata: Metadata = {
-  title: 'DocuChat - AI-Powered Document Analysis',
+  title: 'DocuChat - AI Powered Document Analysis',
   description: 'Upload and chat with your PDF documents using AI. Extract insights, ask questions, and get instant answers from your documents.',
   keywords: ['PDF chat', 'AI document analysis', 'PDF reader', 'document AI', 'chat with documents'],
   authors: [{ name: 'Siddik Mulla' }],
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://chat.siddik.site',
-    title: 'DocuChat - AI-Powered Document Analysis',
+    title: 'DocuChat - AI Powered Document Analysis',
     description: 'Upload and chat with your PDF documents using AI. Extract insights, ask questions, and get instant answers from your documents.',
     siteName: 'DocuChat',
     images: [
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'DocuChat - AI-Powered Document Analysis',
+    title: 'DocuChat - AI Powered Document Analysis',
     description: 'Upload and chat with your PDF documents using AI. Extract insights, ask questions, and get instant answers.',
     images: ['/og-image.jpg'],
     creator: '@__sid_m',
