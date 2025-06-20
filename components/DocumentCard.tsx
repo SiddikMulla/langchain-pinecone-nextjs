@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { databases, storage } from "@/lib/appwrite-client"
+// import { databases, storage } from "@/lib/appwrite-client"
 import {
     FileTextIcon,
     EyeIcon,
     CalendarIcon,
-    Trash
+    // Trash
 } from "lucide-react"
 import { Button } from "./ui/button"
 
@@ -15,7 +15,7 @@ import { Document, Page, pdfjs } from "react-pdf"
 
 import "react-pdf/dist/Page/AnnotationLayer.css"
 import "react-pdf/dist/Page/TextLayer.css"
-import { toast } from "sonner"
+// import { toast } from "sonner"
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
 
@@ -32,11 +32,12 @@ interface DocumentFile {
 
 interface DocumentCardProps {
     document: DocumentFile
-    onDeleted: (documentId: string) => void
+    // onDeleted: (documentId: string) => void
 }
 
-const DocumentCard = ({ document, onDeleted }: DocumentCardProps) => {
-    const [isDeleting, setIsDeleting] = useState(false)
+//need to add onDeleted in param
+const DocumentCard = ({ document }: DocumentCardProps) => {
+    // const [isDeleting, setIsDeleting] = useState(false)
     const [imageError, setImageError] = useState(false)
     const [loading, setLoading] = useState(false)
     const [file, setFile] = useState<Blob | null>(null)

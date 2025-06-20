@@ -100,9 +100,9 @@ const Documents = () => {
         fetchDocuments()
     }, [fetchDocuments])
 
-    const handleDocumentDeleted = useCallback((documentId: string) => {
-        setDocuments(prev => prev.filter(doc => doc.$id !== documentId))
-    }, [])
+    // const handleDocumentDeleted = useCallback((documentId: string) => {
+    //     setDocuments(prev => prev.filter(doc => doc.$id !== documentId))
+    // }, [])
 
     const handleRefresh = useCallback(() => {
         fetchDocuments(true)
@@ -338,7 +338,7 @@ const Documents = () => {
                         <DocumentCard
                             key={document.$id}
                             document={document}
-                            onDeleted={handleDocumentDeleted}
+                        // onDeleted={handleDocumentDeleted}
                         />
                     ))}
                 </div>
