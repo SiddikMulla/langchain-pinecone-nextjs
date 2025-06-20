@@ -24,7 +24,7 @@ const PricingSection = () => {
             buttonLink: '/dashboard',
             cardStyle: 'bg-white rounded-xl border border-gray-200 p-8 shadow-sm',
             features: [
-                "3 PDF uploads per month",
+                "5 PDF uploads per month",
                 "Up to 10 pages per PDF",
                 "50 messages per month",
                 "Basic chat functionality",
@@ -117,7 +117,7 @@ const PricingSection = () => {
                                 >
                                     {option.label}
                                     {option.badge && (
-                                        <span className="bg-green-100 text-green-800 px-2 py-0.5 rounded text-xs font-semibold">
+                                        <span className="bg-green-100 text-indigo-800 px-2 py-0.5 rounded text-xs font-semibold">
                                             {option.badge}
                                         </span>
                                     )}
@@ -237,8 +237,8 @@ const PricingSection = () => {
                 <div className="mt-12 text-center">
                     <p className="text-gray-500 mb-4">
                         Need help choosing?
-                        <a href="/contact" className="text-blue-600 hover:text-blue-700 ml-1 font-medium">
-                            Contact our team
+                        <a href="https://siddik.site/#contacts" className="text-blue-600 hover:text-blue-700 ml-1 font-medium">
+                            Contact Us
                         </a>
                     </p>
                     <div className="flex items-center justify-center gap-6 text-sm text-gray-500">

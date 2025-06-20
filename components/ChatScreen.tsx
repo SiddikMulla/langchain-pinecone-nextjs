@@ -244,7 +244,7 @@ const ChatScreen = ({ id }: { id: string }) => {
                                             </code>
                                         ),
                                         pre: ({ children }) => (
-                                            <pre className="bg-gray-100 text-gray-800 p-3 rounded-lg overflow-x-auto text-xs font-mono mb-2">
+                                            <pre className="bg-gray-00 text-gray-800 p-3 rounded-lg overflow-x-auto text-xs font-mono mb-2">
                                                 {children}
                                             </pre>
                                         ),
@@ -429,7 +429,7 @@ const ChatScreen = ({ id }: { id: string }) => {
                     <Button
                         type="submit"
                         disabled={!input.trim() || isPending}
-                        className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 rounded-full px-6 py-3 shadow-lg"
+                        className="bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-indigo-700 rounded-full px-6 py-3 shadow-lg"
                     >
                         {isPending ? (
                             <Loader2Icon className="h-4 w-4 animate-spin" />
