@@ -32,11 +32,11 @@ const FileUploader = () => {
     }, [handleUpload])
 
     const statusIcons: Record<StatusText, JSX.Element> = {
-        [StatusText.UPLOADING]: <RocketIcon className="h-20 w-20 text-indigo-600" />,
-        [StatusText.UPLOADED]: <CheckCircleIcon className="h-20 w-20 text-indigo-600" />,
-        [StatusText.SAVING]: <SaveIcon className="h-20 w-20 text-indigo-600" />,
+        [StatusText.UPLOADING]: <RocketIcon className="h-20 w-20 text-indigo-700 animate-bounce" />,
+        [StatusText.UPLOADED]: <CheckCircleIcon className="h-20 w-20 text-indigo-700" />,
+        [StatusText.SAVING]: <SaveIcon className="h-20 w-20 text-indigo-700" />,
         [StatusText.GENERATING]: (
-            <HammerIcon className="h-20 w-20 text-indigo-600 animate-bounce" />
+            <HammerIcon className="h-20 w-20 text-indigo-700 animate-bounce" />
         ),
     }
 
@@ -83,7 +83,7 @@ const FileUploader = () => {
             ) : (
                 <div
                     {...getRootProps()}
-                    className={`p-10 border-2 border-dashed mt-10 w-[90%] border-indigo-600 text-indigo-600 rounded-lg h-80 flex items-center justify-center ${isFocused || isDragActive ? 'bg-indigo-200' : 'bg-indigo-50'
+                    className={`p-10 border-1 shadow-lg border-dashed mt-10 w-[75%] border-indigo-600 text-indigo-600 rounded-4xl h-85 flex items-center justify-center hover:bg-indigo-50 cursor-pointer ${isFocused || isDragActive ? 'bg-indigo-200' : 'bg-slate-50'
                         }`}
                 >
                     <div className="flex flex-col items-center justify-center">
