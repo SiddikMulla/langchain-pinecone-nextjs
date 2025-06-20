@@ -6,7 +6,7 @@ import { databases } from "@/lib/appwrite-client"
 import { Query } from "appwrite"
 import PlaceholderDocuments from "./PlaceholderDocuments"
 import DocumentCard from "./DocumentCard"
-import { Search, Filter, RefreshCw, FileText, AlertCircle, Grid, List, Crown, Dot } from "lucide-react"
+import { Search, RefreshCw, FileText, AlertCircle, Grid, List, Crown, Dot } from "lucide-react"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import Link from "next/link"
@@ -110,7 +110,7 @@ const Documents = () => {
 
     // Filtered and sorted documents
     const filteredAndSortedDocuments = useMemo(() => {
-        let filtered = documents.filter(doc =>
+        const filtered = documents.filter(doc =>
             doc.name.toLowerCase().includes(searchTerm.toLowerCase())
         )
 

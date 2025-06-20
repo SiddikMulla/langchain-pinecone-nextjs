@@ -70,42 +70,42 @@ const DocumentCard = ({ document, onDeleted }: DocumentCardProps) => {
         router.push(`/dashboard/files/${document.fileId}`)
     }
 
-    const handleDownload = () => {
-        const link = window.document.createElement('a')
-        link.href = document.downloadUrl
-        link.download = document.name
-        link.click()
-    }
+    // const handleDownload = () => {
+    //     const link = window.document.createElement('a')
+    //     link.href = document.downloadUrl
+    //     link.download = document.name
+    //     link.click()
+    // }
 
-    const handleDelete = async () => {
-        if (!confirm('Are you sure you want to delete this document?')) return
-        setIsDeleting(true)
+    // const handleDelete = async () => {
+    //     if (!confirm('Are you sure you want to delete this document?')) return
+    //     setIsDeleting(true)
 
-        try {
-            await databases.deleteDocument(
-                process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-                process.env.NEXT_PUBLIC_APPWRITE_FILES_COLLECTION_ID!,
-                document.$id
-            )
-            await storage.deleteFile(
-                process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ID!,
-                document.fileId
-            )
-            onDeleted(document.$id)
-            toast.success('Document Deleted!', {
-                description: 'Your file has been successfully removed.',
-                icon: <Trash className="text-red-500" />,
-                duration: 3000,
-                position: "top-center",
-                className: 'border border-red-300 bg-white text-gray-800 shadow-lg rounded-xl',
-            })
-        } catch (error) {
-            console.error('Delete error:', error)
-            toast.error('Failed to delete document.')
-        } finally {
-            setIsDeleting(false)
-        }
-    }
+    //     try {
+    //         await databases.deleteDocument(
+    //             process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
+    //             process.env.NEXT_PUBLIC_APPWRITE_FILES_COLLECTION_ID!,
+    //             document.$id
+    //         )
+    //         await storage.deleteFile(
+    //             process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ID!,
+    //             document.fileId
+    //         )
+    //         onDeleted(document.$id)
+    //         toast.success('Document Deleted!', {
+    //             description: 'Your file has been successfully removed.',
+    //             icon: <Trash className="text-red-500" />,
+    //             duration: 3000,
+    //             position: "top-center",
+    //             className: 'border border-red-300 bg-white text-gray-800 shadow-lg rounded-xl',
+    //         })
+    //     } catch (error) {
+    //         console.error('Delete error:', error)
+    //         toast.error('Failed to delete document.')
+    //     } finally {
+    //         setIsDeleting(false)
+    //     }
+    // }
 
     return (
         <div className="group flex flex-col w-64 h-80 rounded-2xl bg-white shadow-md hover:shadow-lg transition-all border border-gray-200 overflow-hidden">
