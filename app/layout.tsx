@@ -3,6 +3,7 @@ import "./globals.css";
 import { neobrutalism } from '@clerk/themes'
 import { Metadata } from "next";
 import StructuredData from "@/components/StructuredData";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: 'DocuChat - AI Powered Document Analysis',
@@ -80,6 +81,7 @@ export default function RootLayout({
           signIn: { baseTheme: neobrutalism },
         }}>
           {children}
+          <Toaster />
           <StructuredData />
         </ClerkProvider>
       </body>
