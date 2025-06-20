@@ -6,6 +6,7 @@ import { loadStripe } from '@stripe/stripe-js';
 
 const PricingSection = () => {
     const [isAnnual, setIsAnnual] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const stripePromise = loadStripe('pk_test_51RahXgRI3stGNGdnGofuT5TJOcgIfYzfrWweYjPW6yNuTj4AiRn4qOJJrGMDnFbHs2z7WbM2CikaEYXCKFV6x6EV00BBzcBkGp')
     const plans = [
@@ -174,6 +175,7 @@ const PricingSection = () => {
                                 {plan.id === 'pro' ? (
                                     <button
                                         onClick={async () => {
+                                            setLoading(true)
                                             const stripe = await stripePromise;
                                             const res = await fetch('/api/create-checkout-session', {
                                                 method: 'POST',
@@ -201,8 +203,10 @@ const PricingSection = () => {
                                             }
                                         }}
                                         className={`w-full ${plan.buttonStyle} font-medium py-3 px-4 rounded-lg transition-colors inline-block text-center`}
-                                    >
-                                        {plan.buttonText}
+                                    >{loading ? <>
+                                        <span className="loading loading-spinner loading-md"></span>
+                                    </> :
+                                        plan.buttonText}
                                     </button>
                                 ) : (
                                     <a
