@@ -5,23 +5,17 @@ import { useRouter } from "next/navigation"
 import { databases, storage } from "@/lib/appwrite-client"
 import {
     FileTextIcon,
-    TrashIcon,
-    DownloadIcon,
     EyeIcon,
-    MoreVerticalIcon,
-    CalendarIcon
+    CalendarIcon,
+    Trash
 } from "lucide-react"
 import { Button } from "./ui/button"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "./ui/dropdown-menu"
+
 import { Document, Page, pdfjs } from "react-pdf"
 
 import "react-pdf/dist/Page/AnnotationLayer.css"
 import "react-pdf/dist/Page/TextLayer.css"
+import { toast } from "sonner"
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
 
@@ -44,6 +38,7 @@ interface DocumentCardProps {
 const DocumentCard = ({ document, onDeleted }: DocumentCardProps) => {
     const [isDeleting, setIsDeleting] = useState(false)
     const [imageError, setImageError] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [file, setFile] = useState<Blob | null>(null)
 
     useEffect(() => {
@@ -71,6 +66,7 @@ const DocumentCard = ({ document, onDeleted }: DocumentCardProps) => {
     }
 
     const handleView = () => {
+        setLoading(true)
         router.push(`/dashboard/files/${document.fileId}`)
     }
 
@@ -96,9 +92,16 @@ const DocumentCard = ({ document, onDeleted }: DocumentCardProps) => {
                 document.fileId
             )
             onDeleted(document.$id)
+            toast.success('Document Deleted!', {
+                description: 'Your file has been successfully removed.',
+                icon: <Trash className="text-red-500" />,
+                duration: 3000,
+                position: "top-center",
+                className: 'border border-red-300 bg-white text-gray-800 shadow-lg rounded-xl',
+            })
         } catch (error) {
             console.error('Delete error:', error)
-            alert('Failed to delete document.')
+            toast.error('Failed to delete document.')
         } finally {
             setIsDeleting(false)
         }
@@ -135,7 +138,7 @@ const DocumentCard = ({ document, onDeleted }: DocumentCardProps) => {
                             <span>{formatDate(document.createdAt)}</span>
                         </div>
                     </div>
-                    <DropdownMenu>
+                    {/* <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button
                                 variant="ghost"
@@ -159,7 +162,7 @@ const DocumentCard = ({ document, onDeleted }: DocumentCardProps) => {
                                 {isDeleting ? 'Deleting...' : 'Delete'}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
-                    </DropdownMenu>
+                    </DropdownMenu> */}
                 </div>
 
 
@@ -169,7 +172,12 @@ const DocumentCard = ({ document, onDeleted }: DocumentCardProps) => {
                         size="sm"
                         className="bg-indigo-700 hover:bg-indigo-900 cursor-pointer text-white flex-1 mr-2"
                     >
-                        <EyeIcon className="h-4 w-4 mr-1" />
+                        {loading ?
+                            <>
+                                <span className="loading loading-ring loading-md"></span>
+                            </> :
+                            <EyeIcon style={{ width: 30, height: 23 }} />
+                        }
                     </Button>
 
                 </div>
