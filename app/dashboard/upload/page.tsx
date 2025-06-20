@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import FileUploader from '@/components/FileUploader'
 import Link from 'next/link'
 
-const MAX_FREE_DOCUMENTS = 4
+const MAX_FREE_DOCUMENTS = 5
 const SUPER_USER_ID = 'user_2wmR5zMqRt8v4bJp3zBDvlx6vv8'
 
 const UploadPage = () => {
