@@ -55,7 +55,6 @@ const Documents = () => {
             setLoading(false)
             return
         }
-        console.log("dfvlbhadjhfb:", user.id)
         try {
             if (showRefreshIndicator) {
                 setRefreshing(true)
