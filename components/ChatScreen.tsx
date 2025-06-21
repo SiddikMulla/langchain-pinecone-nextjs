@@ -4,7 +4,7 @@ import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Badge } from "./ui/badge"
-import { Loader2Icon, SendIcon, AlertCircle, Bot, User, Sparkles, Copy, ThumbsUp, ThumbsDown, MessageCircle } from "lucide-react"
+import { Loader2Icon, SendIcon, AlertCircle, Bot, User, Sparkles, Copy, ThumbsUp, ThumbsDown, MessageCircle, BrainCircuitIcon } from "lucide-react"
 import { useUser } from "@clerk/nextjs"
 import { databases, Query } from "@/lib/appwrite-client"
 import { FormEvent, useEffect, useState, useTransition, useRef } from "react"
@@ -193,7 +193,7 @@ const ChatScreen = ({ id }: { id: string }) => {
                             {isPlaceholder ? (
                                 <Loader2Icon className="h-4 w-4 text-white animate-spin" />
                             ) : (
-                                <Bot className="h-4 w-4 text-white" />
+                                <BrainCircuitIcon className="h-4 w-4 text-white" />
                             )}
                         </div>
                     )}
@@ -205,18 +205,12 @@ const ChatScreen = ({ id }: { id: string }) => {
                     <div className={`flex items-center gap-2 mb-1 ${isHuman ? 'flex-row-reverse' : 'flex-row'}`}>
                         <span className="text-xs font-medium text-gray-600">
                             {isHuman
-                                ? (user?.firstName || user?.username || 'You')
+                                ? ('You')
                                 : isPlaceholder
-                                    ? 'AI Assistant'
-                                    : 'AI Assistant'
+                                    ? 'DocuChat'
+                                    : 'DocuChat'
                             }
                         </span>
-                        {!isHuman && !isPlaceholder && (
-                            <Badge variant="secondary" className="text-xs px-1.5 py-0.5">
-                                <Sparkles className="h-2.5 w-2.5 mr-1" />
-                                AI
-                            </Badge>
-                        )}
                         <span className="text-xs text-gray-400">
                             {message.createdAt.toLocaleTimeString([], {
                                 hour: '2-digit',
@@ -227,7 +221,7 @@ const ChatScreen = ({ id }: { id: string }) => {
 
                     {/* Message Bubble */}
                     <div className={`relative rounded-2xl px-4 py-3 shadow-sm ${isHuman
-                        ? 'bg-blue-500 text-white rounded-tr-md'
+                        ? 'bg-blue-600 text-white rounded-tr-md'
                         : isPlaceholder
                             ? 'bg-gray-100 text-gray-600 rounded-tl-md animate-pulse'
                             : 'bg-white border border-gray-200 text-gray-800 rounded-tl-md'
