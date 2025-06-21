@@ -4,8 +4,6 @@ import Link from "next/link"
 import { Button } from "./ui/button"
 import { Crown, FilePlus2, Menu, X } from "lucide-react"
 import { useState } from "react"
-import Image from "next/image"
-import doc from '@/public/dv-rm.png'
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
