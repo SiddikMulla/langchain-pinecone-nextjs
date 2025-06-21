@@ -23,7 +23,7 @@ const PricingSection = () => {
             buttonText: 'Get Started Free',
             buttonStyle: 'bg-gray-900 hover:bg-gray-800 text-white',
             buttonLink: '/dashboard',
-            cardStyle: 'bg-white rounded-xl border border-gray-200 p-8 shadow-sm',
+            cardStyle: 'bg-white rounded-3xl border- border-gray-200 p-9 shadow-lg',
             features: [
                 "5 PDF uploads per month",
                 "Up to 10 pages per PDF",
@@ -43,9 +43,9 @@ const PricingSection = () => {
             iconBg: 'bg-blue-100',
             iconColor: 'text-blue-600',
             buttonText: 'Start Pro Trial',
-            buttonStyle: 'bg-blue-600 hover:bg-blue-700 text-white',
+            buttonStyle: 'bg-indigo-600 hover:bg-indigo-800 text-white',
             buttonLink: `/signup?plan=pro&billing=${isAnnual ? 'annual' : 'monthly'}`,
-            cardStyle: 'bg-white rounded-xl border-2 border-blue-200 p-8 shadow-sm relative',
+            cardStyle: 'bg-white rounded-3xl border-2 border-indigo-200 p-9 shadow-lg relative',
             popular: true,
             features: [
                 "Unlimited PDF uploads",
@@ -105,20 +105,20 @@ const PricingSection = () => {
 
                 {/* Billing Toggle */}
                 <div className="flex items-center justify-center mb-12">
-                    <div className="bg-white rounded-lg p-1 shadow-sm border border-gray-200">
+                    <div className="bg-white rounded-4xl p-1 shadow-sm border border-gray-200">
                         <div className="flex items-center">
                             {billingOptions.map((option) => (
                                 <button
                                     key={option.value.toString()}
                                     onClick={() => setIsAnnual(option.value)}
-                                    className={`px-6 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-2 ${isAnnual === option.value
+                                    className={`px-6 py-2 rounded-4xl text-sm font-medium transition-colors flex items-center gap-2 ${isAnnual === option.value
                                         ? 'bg-gray-900 text-white'
                                         : 'text-gray-700 hover:text-gray-900'
                                         }`}
                                 >
                                     {option.label}
                                     {option.badge && (
-                                        <span className="bg-green-100 text-indigo-800 px-2 py-0.5 rounded text-xs font-semibold">
+                                        <span className="bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded text-xs font-semibold">
                                             {option.badge}
                                         </span>
                                     )}
@@ -136,7 +136,7 @@ const PricingSection = () => {
                             <div key={plan.id} className={plan.cardStyle}>
                                 {plan.popular && (
                                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                                        <span className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-medium">
+                                        <span className="bg-indigo-600 text-white px-4 py-1 rounded-full text-sm font-medium">
                                             Most Popular
                                         </span>
                                     </div>
@@ -144,8 +144,8 @@ const PricingSection = () => {
 
                                 <div className="mb-8">
                                     <div className="flex items-center gap-3 mb-4">
-                                        <div className={`w-10 h-10 ${plan.iconBg} rounded-lg flex items-center justify-center`}>
-                                            <IconComponent className={`w-5 h-5 ${plan.iconColor}`} />
+                                        <div className={`w-15 h-15 ${plan.iconBg} rounded-lg flex items-center justify-center`}>
+                                            <IconComponent className={`w-7 h-7 ${plan.iconColor}`} />
                                         </div>
                                         <div>
                                             <h3 className="text-xl font-semibold text-gray-900">{plan.name}</h3>
@@ -157,7 +157,7 @@ const PricingSection = () => {
                                         <span className="text-gray-500">{plan.priceLabel}</span>
                                     </div>
                                     {plan.subtitle && (
-                                        <p className={`text-sm ${plan.id === 'pro' && isAnnual ? 'text-green-600 font-medium' : 'text-gray-500'}`}>
+                                        <p className={`text-sm ${plan.id === 'pro' && isAnnual ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
                                             {plan.subtitle}
                                         </p>
                                     )}
@@ -166,7 +166,7 @@ const PricingSection = () => {
                                 <div className="space-y-3 mb-8">
                                     {plan.features.map((feature, index) => (
                                         <div key={index} className="flex items-start gap-3">
-                                            <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                                            <Check className="w-5 h-5 text-indigo-500 flex-shrink-0 mt-0.5" />
                                             <span className="text-gray-700 text-sm">{feature}</span>
                                         </div>
                                     ))}
@@ -222,16 +222,21 @@ const PricingSection = () => {
                     })}
                 </div>
 
-                {/* FAQ/Additional Info */}
-                <div className="mt-16 text-center">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-8">
-                        Frequently Asked Questions
-                    </h3>
-                    <div className="grid md:grid-cols-2 gap-8 text-left">
+                {/* FAQ Section */}
+                <div className="mt-24">
+                    <div className="text-center mb-12">
+                        <h3 className="text-3xl font-bold text-slate-900 mb-4">
+                            Frequently Asked Questions
+                        </h3>
+                        <p className="text-slate-600">
+                            Everything you need to know about our pricing and plans.
+                        </p>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                         {faqs.map((faq, index) => (
-                            <div key={index}>
-                                <h4 className="font-medium text-gray-900 mb-2">{faq.question}</h4>
-                                <p className="text-gray-600 text-sm">{faq.answer}</p>
+                            <div key={index} className="bg-white rounded-xl p-6 border border-slate-200/60 shadow-sm hover:shadow-md transition-all duration-200">
+                                <h4 className="font-semibold text-slate-900 mb-3 text-lg">{faq.question}</h4>
+                                <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
                             </div>
                         ))}
                     </div>

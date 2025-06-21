@@ -71,8 +71,8 @@ export default function RootLayout({
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/dc.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/dc.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/DocLogo.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/DocLogo.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="google-site-verification" content="f6_GGR5odbk_2hLZLgu725VBqRWDICAomY153j1-OEA" />
       </head>

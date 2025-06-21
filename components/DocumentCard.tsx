@@ -83,35 +83,92 @@ const DocumentCard = ({ document, onDeleted }: DocumentCardProps) => {
     }
 
     const handleDelete = async () => {
-        if (!confirm('Are you sure you want to delete this document?')) return
-        setIsDeleting(true)
+        // Show confirmation toast with action buttons
+        toast('Are you sure you want to delete this document?', {
+            action: {
+                label: "Delete",
+                onClick: () => performDelete(),
+            },
+            cancel: {
+                label: "Cancel",
+                onClick: () => { }, // Just dismiss
+            },
+            duration: Infinity,
+            position: "top-center",
+            className: "group toast-confirm",
+            style: {
+                minWidth: '500px',
+                padding: '20px',
+                fontSize: '16px'
+            },
+            actionButtonStyle: {
+                backgroundColor: '#dc2626',
+                color: 'white',
+                padding: '13px 20px',
+                borderRadius: '8px',
+                fontSize: '14px',
+                fontWeight: '600',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+            },
+            cancelButtonStyle: {
+                backgroundColor: '#f3f4f6',
+                color: '#374151',
+                padding: '13px 20px',
+                borderRadius: '8px',
+                fontSize: '14px',
+                fontWeight: '500',
+                border: '1px solid #d1d5db',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+            },
+        });
+    };
+
+    const performDelete = async () => {
+        setIsDeleting(true);
 
         try {
             await databases.deleteDocument(
                 process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
                 process.env.NEXT_PUBLIC_APPWRITE_FILES_COLLECTION_ID!,
                 document.$id
-            )
+            );
             await storage.deleteFile(
                 process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ID!,
                 document.fileId
-            )
-            onDeleted(document.$id)
-            toast.success('Document Deleted!', {
-                description: 'Your file has been successfully removed.',
-                icon: <Trash2 className="text-red-500" />,
-                duration: 3000,
+            );
+            onDeleted(document.$id);
+            toast.success('Document Deleted Successfully!', {
+                description: 'Your file has been permanently removed from the system.',
+                icon: <Trash2 className="text-red-500 w-5 h-5" />,
+                duration: 4000,
                 position: "top-center",
-                className: 'border border-red-300 text-base bg-white text-gray-800 shadow-lg rounded-xl',
-            })
+                className: "toast-success",
+                style: {
+                    minWidth: '350px',
+                    padding: '16px',
+                    fontSize: '15px',
+                },
+            });
         } catch (error) {
-            console.error('Delete error:', error)
-            toast.error('Failed to delete document.')
+            console.error('Delete error:', error);
+            toast.error('Failed to Delete Document', {
+                description: 'An error occurred while trying to delete the file. Please try again.',
+                duration: 4000,
+                position: "top-center",
+                className: "toast-error",
+                style: {
+                    minWidth: '350px',
+                    padding: '16px',
+                    fontSize: '15px',
+                },
+            });
         } finally {
-            setIsDeleting(false)
+            setIsDeleting(false);
         }
-    }
-
+    };
     return (
         <div className="group flex flex-col w-64 h-80 rounded-2xl bg-white shadow-md hover:shadow-lg transition-all border border-gray-200 overflow-hidden">
             {/* PDF Preview Section */}

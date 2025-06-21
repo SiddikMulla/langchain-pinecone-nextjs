@@ -4,7 +4,7 @@ import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Badge } from "./ui/badge"
-import { Loader2Icon, SendIcon, AlertCircle, Bot, User, Sparkles, Copy, ThumbsUp, ThumbsDown, CloudCog } from "lucide-react"
+import { Loader2Icon, SendIcon, AlertCircle, Bot, User, Sparkles, Copy, ThumbsUp, ThumbsDown, MessageCircle } from "lucide-react"
 import { useUser } from "@clerk/nextjs"
 import { databases, Query } from "@/lib/appwrite-client"
 import { FormEvent, useEffect, useState, useTransition, useRef } from "react"
@@ -29,6 +29,12 @@ const ChatScreen = ({ id }: { id: string }) => {
     const [error, setError] = useState<string | null>(null);
     const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
 
+    const quickPrompts = [
+        "What is this document about?",
+        "Summarize the main points",
+        "Find information about...",
+        "Generate actionable insights"
+    ];
     // Auto-scroll to bottom when new messages arrive
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -342,16 +348,17 @@ const ChatScreen = ({ id }: { id: string }) => {
             {/* Chat Header */}
             <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                    <div className="h-8 w-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center">
-                        <CloudCog className="h-4 w-4 text-white" />
-                    </div>
+                    {/* <div className="h-8 w-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center"> */}
+                    <Sparkles className="h-5 w-5 text-indigo-800" />
+                    {/* </div> */}
                     <div>
-                        <h3 className="font-semibold text-gray-900">DocuChat</h3>
-                        <p className="text-xs text-gray-500">Always ready to help with your documents</p>
+                        <h3 className="font-bold text-gray-900">
+                            <span className="text-indigo-600">Docu</span>Chat
+                        </h3>
                     </div>
                 </div>
-                <Badge variant="outline" className="text-green-600 border-green-600">
-                    <div className="h-2 w-2 bg-green-500 rounded-full mr-2"></div>
+                <Badge variant="outline" className="text-green-700 border-green-700">
+                    <div className="h-2 w-2 bg-green-700 rounded-full mr-2"></div>
                     Online
                 </Badge>
             </div>
@@ -373,22 +380,45 @@ const ChatScreen = ({ id }: { id: string }) => {
             {/* Messages Container */}
             <div className="flex-1 overflow-y-auto p-4 space-y-6">
                 {messages.length === 0 ? (
-                    <div className="text-center py-12">
-                        <div className="h-16 w-16 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center mx-auto mb-4">
-                            <Bot className="h-8 w-8 text-white" />
+                    <div className="text-center py-16 px-6 max-w-4xl mx-auto">
+                        {/* Hero Section */}
+                        <div className="mb-12">
+                            <div className="inline-flex items-center justify-center w-15 h-15 bg-gradient-to-br from-blue-400 to-violet-600 rounded-full mb-6 shadow-lg">
+                                <MessageCircle className="w-7 h-7 text-white" />
+                            </div>
+
+                            <h1 className="text-4xl font-bold mb-4">
+                                Welcome back, {user?.firstName || 'there'}! 👋
+                            </h1>
+
+                            <p className="text-md text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+                                I'm your intelligent document companion, powered by advanced AI to help you unlock insights,
+                                analyze content, and get answers from your documents in seconds.
+                            </p>
+
                         </div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                            👋 Hello, {user?.firstName || 'there'}!
-                        </h3>
-                        <p className="text-gray-600 mb-4">
-                            I'm your AI document assistant. I can help you understand, analyze, and extract insights from your document.
-                        </p>
-                        <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 max-w-md mx-auto">
-                            <p className="text-sm font-medium text-gray-700 mb-2">Try asking me:</p>
-                            <div className="space-y-1 text-sm text-gray-600">
-                                <p>• "What is this document about?"</p>
-                                <p>• "Summarize the main points"</p>
-                                <p>• "Find information about..."</p>
+
+                        {/* Quick Start Section */}
+                        <div className="mx-auto max-w-xl bg-gradient-to-r from-indigo-50/50 to-indigo-50/50 rounded-2xl p-8 border border-blue-100">
+                            <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center justify-center gap-2">
+                                <MessageCircle className="w-6 h-6 text-blue-500" />
+                                Get Started - Try These Commands
+                            </h2>
+
+                            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 max-w-xl">
+                                {quickPrompts.map((prompt, index) => (
+                                    <div
+                                        key={index}
+                                        className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 hover:shadow-md hover:border-blue-200 transition-all duration-200 cursor-pointer group"
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-2 h-2 bg-blue-500 rounded-full group-hover:bg-purple-500 transition-colors duration-200"></div>
+                                            <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+                                                {prompt}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>

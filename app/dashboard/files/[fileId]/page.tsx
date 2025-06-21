@@ -8,6 +8,7 @@ interface Props {
         fileId: string
     }>
 }
+
 const ChatWithPDFPage = async ({ params }: Props) => {
     auth.protect()
     // const { userId } = await auth();
@@ -20,19 +21,17 @@ const ChatWithPDFPage = async ({ params }: Props) => {
 
     const url = document.downloadUrl;
     return (
-        <div className="grid lg:grid-cols-4 h-full overflow-hidden">
-            {/* right */}
-            <div className="col-span-5 lg:col-span-2 overflow-y-auto">
-                {/* chat */}
-                <ChatScreen id={fileId} />
-            </div>
-            {/* left */}
-            <div className="col-span-5 lg:col-span-2 bg-gray-100 border-r-2 lg:border-indigo-300 lg:-order-1 overflow-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-4 h-full overflow-hidden">
+            {/* PDF View - shows first on mobile, second on desktop */}
+            <div className="col-span-1 lg:col-span-2 bg-gray-100 border-r-2 lg:border-indigo-300 lg:-order-1 overflow-auto">
                 <PdfView url={url} />
+            </div>
+            {/* Chat Screen - shows second on mobile, first on desktop */}
+            <div className="col-span-1 lg:col-span-2 overflow-y-auto">
+                <ChatScreen id={fileId} />
             </div>
         </div>
     )
 }
+
 export default ChatWithPDFPage
-
-

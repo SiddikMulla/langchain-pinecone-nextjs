@@ -181,7 +181,7 @@ const Documents = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-slate-50">
+        <div className="min-h-screen pb-30 bg-gradient-to-br from-gray-50 to-indigo-50">
             {!isSuperUser && (<div className="fixed z-50 flex items-center rounded-b-xl border border-gray-200 bg-white px-2 py-1 shadow-md backdrop-blur-sm right-4 sm:left-1/2 sm:-translate-x-1/2 sm:right-auto">
                 <span className="text-xs sm:text-sm text-gray-700">Free Tier</span>
                 <Dot className="text-gray-400" />
@@ -247,23 +247,24 @@ const Documents = () => {
                 </div>
 
                 {/* Controls */}
-                <div className="flex flex-col gap-4 mb-6 sm:mb-8 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-200">
-                    {/* Search - Full width on mobile */}
-                    <div className="relative">
+                <div className="flex flex-col  lg:flex-row gap-4 mb-6 sm:mb-8 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-200">
+                    {/* Search - Full width on mobile, flexible on desktop */}
+                    <div className="relative flex-1 lg:flex-initial lg:min-w-[300px]">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                         <Input
                             type="text"
                             placeholder="Search documents..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="pl-10 py-5 w-full"
+                            className="pl-10 py-5  w-full"
                         />
                     </div>
 
-                    {/* Sort and View Mode - Side by side on larger screens */}
-                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-2">
+                    {/* Sort and View Mode Container */}
+                    <div className="flex flex-col sm:flex-row gap-3 lg:gap-4">
+                        {/* Sort Dropdown */}
                         <Select value={sortBy} onValueChange={(value) => setSortBy(value as SortOption)}>
-                            <SelectTrigger className="w-max sm:min-w-[140px]">
+                            <SelectTrigger className="w-full sm:w-auto sm:min-w-[140px] py-5">
                                 <SelectValue placeholder="Sort by" />
                             </SelectTrigger>
                             <SelectContent>
@@ -274,24 +275,25 @@ const Documents = () => {
                             </SelectContent>
                         </Select>
 
-                        <div className="flex border border-gray-300 rounded-lg overflow-hidden">
+                        {/* View Mode Toggle */}
+                        <div className="flex border border-gray-300 rounded-lg overflow-hidden w-full sm:w-auto">
                             <button
                                 onClick={() => setViewMode('grid')}
-                                className={`px-4 py-2 flex-1 sm:flex-none sm:px-3 ${viewMode === 'grid'
+                                className={`px-4 py-2.5 flex-1 sm:flex-none sm:px-4 flex items-center justify-center ${viewMode === 'grid'
                                     ? 'bg-blue-500 text-white'
                                     : 'bg-white text-gray-600 hover:bg-gray-50'
                                     } transition-colors duration-200`}
                             >
-                                <Grid className="w-4 h-4 mx-auto" />
+                                <Grid className="w-4 h-4" />
                             </button>
                             <button
                                 onClick={() => setViewMode('list')}
-                                className={`px-4 py-2 flex-1 sm:flex-none sm:px-3 ${viewMode === 'list'
+                                className={`px-4 py-2.5 flex-1 sm:flex-none sm:px-4 flex items-center justify-center border-l border-gray-300 ${viewMode === 'list'
                                     ? 'bg-blue-500 text-white'
                                     : 'bg-white text-gray-600 hover:bg-gray-50'
                                     } transition-colors duration-200`}
                             >
-                                <List className="w-4 h-4 mx-auto" />
+                                <List className="w-4 h-4" />
                             </button>
                         </div>
                     </div>
