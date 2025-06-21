@@ -100,9 +100,9 @@ const Documents = () => {
         fetchDocuments()
     }, [fetchDocuments])
 
-    // const handleDocumentDeleted = useCallback((documentId: string) => {
-    //     setDocuments(prev => prev.filter(doc => doc.$id !== documentId))
-    // }, [])
+    const handleDocumentDeleted = useCallback((documentId: string) => {
+        setDocuments(prev => prev.filter(doc => doc.$id !== documentId))
+    }, [])
 
     const handleRefresh = useCallback(() => {
         fetchDocuments(true)
@@ -182,26 +182,26 @@ const Documents = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-slate-50">
-            <div className="fixed left-1/2 -translate-x-1/2 z-50 flex items-center rounded-b-3xl border border-gray-200 bg-white px-4 py-2 shadow-md backdrop-blur-sm">
+            {!isSuperUser && (<div className="fixed z-50 flex items-center rounded-b-xl border border-gray-200 bg-white px-2 py-1 shadow-md backdrop-blur-sm right-4 sm:left-1/2 sm:-translate-x-1/2 sm:right-auto">
                 <span className="text-xs sm:text-sm text-gray-700">Free Tier</span>
                 <Dot className="text-gray-400" />
                 <Link href="/dashboard/upgrade" className="text-xs sm:text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">
                     Upgrade Plan
                 </Link>
-            </div>
+            </div>)}
+
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
                 {/* Header */}
                 <div className="mb-6 sm:mb-8">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <div>
                             <div className="flex items-center gap-2 mb-2">
-                                <h1 className="text-2xl sm:text-3xl font-bold text-indigo-700">
+                                <h1 className={`text-2xl sm:text-3xl font-bold ${isSuperUser ? 'text-yellow-800' : 'text-indigo-700'}`}>
                                     My Documents
                                 </h1>
                                 {isSuperUser && (
-                                    <div className="flex items-center gap-1 px-2 py-1 bg-gradient-to-r from-slate-600 to-slate-800 text-white rounded-full text-xs font-medium">
+                                    <div className="flex items-center gap-1 px-2 py-1 bg-gradient-to-r from-yellow-600 to-yellow-800 text-white rounded-full text-xs font-medium">
                                         <Crown className="w-3 h-3" />
-                                        <span>Super User</span>
                                     </div>
                                 )}
                             </div>
@@ -226,7 +226,7 @@ const Documents = () => {
                                 {isSuperUser && (
                                     <>
                                         <span className="hidden sm:inline">•</span>
-                                        <span className="px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                                        <span className="px-2 py-1 border border-amber-500 rounded-full text-xs font-medium bg-yellow-100 text-yellow-900">
                                             Unlimited
                                         </span>
                                     </>
@@ -338,7 +338,7 @@ const Documents = () => {
                         <DocumentCard
                             key={document.$id}
                             document={document}
-                        // onDeleted={handleDocumentDeleted}
+                            onDeleted={handleDocumentDeleted}
                         />
                     ))}
                 </div>

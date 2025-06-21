@@ -58,14 +58,14 @@ const PlaceholderDocuments = ({
           w-full h-64 sm:w-64 sm:h-80 
           rounded-2xl bg-gradient-to-br cursor-pointer 
           ${isSuperUser
-                        ? 'from-slate-50 to-slate-100 hover:from-slate-100 hover:to-slate-200 border-2 border-dashed border-slate-300 hover:border-green-800'
+                        ? 'from-yellow-50 to-orange-100 hover:from-yellow-100 hover:to-orange-200 border-2 border-dashed border-yellow-300 hover:border-yellow-800'
                         : 'from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 border-2 border-dashed border-gray-300 hover:border-blue-500'
                     }
           hover:shadow-lg
           transition-all duration-300 ease-in-out
           disabled:opacity-50 disabled:cursor-not-allowed
           disabled:hover:shadow-none
-          ${isSuperUser ? 'text-slate-700 hover:text-slate-800' : 'text-gray-600 hover:text-blue-600'}
+          ${isSuperUser ? 'text-yellow-700 hover:text-yellow-800' : 'text-gray-600 hover:text-blue-600'}
           transform hover:scale-[1.02] active:scale-[0.98]
           focus:ring-4 focus:ring-blue-500/20 focus:outline-none`}
             >
@@ -98,12 +98,12 @@ const PlaceholderDocuments = ({
                             <PlusCircleIcon
                                 style={{ width: 60, height: 60 }}
                                 className={`${isSuperUser
-                                    ? 'text-slate-400 group-hover:text-slate-500'
+                                    ? 'text-yellow-600 group-hover:text-yellow-700'
                                     : 'text-gray-400 group-hover:text-blue-500'
                                     } transition-colors duration-200`}
                             />
                             {isSuperUser ? (
-                                <Crown className="absolute -top-2 -right-2 w-6 h-6 text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                                <Crown className="absolute -top-2 -right-2 w-6 h-6 text-yellow-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                             ) : (
                                 <Sparkles className="absolute -top-2 -right-2 w-6 h-6 text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                             )}
@@ -114,7 +114,7 @@ const PlaceholderDocuments = ({
                             </p>
                             <p className="text-xs mt-1">
                                 {isSuperUser ? (
-                                    <span className="text-slate-600 font-medium flex items-center justify-center gap-1">
+                                    <span className="text-yellow-700 font-medium flex items-center justify-center gap-1">
                                         <Crown className="w-3 h-3" />
                                         Unlimited
                                     </span>
@@ -148,7 +148,7 @@ const PlaceholderDocuments = ({
 
             {/* Super User Badge */}
             {isSuperUser && (
-                <div className="absolute -top-3 -right-3 bg-gradient-to-r from-slate-600 to-slate-800 text-slate-50 px-2 py-1 rounded-full flex items-center gap-1 text-xs font-medium shadow-md">
+                <div className="absolute -top-3 -right-3 bg-gradient-to-r from-yellow-600 to-yellow-800 text-slate-50 px-2 py-1 rounded-full flex items-center gap-1 text-xs font-medium shadow-md">
                     <Crown className="w-3 h-3" />
                     <span>Super</span>
                 </div>
@@ -170,7 +170,7 @@ const PlaceholderDocuments = ({
             {/* Super User Tooltip */}
             {isSuperUser && (
                 <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 
-          bg-gradient-to-r from-slate-600 to-slate-700 text-white text-xs px-3 py-2 rounded-lg
+          bg-gradient-to-r from-yellow-600 to-yellow-700 text-white text-xs px-3 py-2 rounded-lg
           opacity-0 group-hover:opacity-100 transition-opacity duration-200
           pointer-events-none whitespace-nowrap z-10 flex items-center gap-1">
                     <Crown className="w-3 h-3" />

@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-// import { databases, storage } from "@/lib/appwrite-client"
+import { databases, storage } from "@/lib/appwrite-client"
 import {
     FileTextIcon,
     EyeIcon,
     CalendarIcon,
-    // Trash
+    MoreVerticalIcon,
+    DownloadIcon,
+    Trash2Icon,
+    Trash2,
 } from "lucide-react"
 import { Button } from "./ui/button"
 
@@ -15,7 +18,8 @@ import { Document, Page, pdfjs } from "react-pdf"
 
 import "react-pdf/dist/Page/AnnotationLayer.css"
 import "react-pdf/dist/Page/TextLayer.css"
-// import { toast } from "sonner"
+import { toast } from "sonner"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
 
@@ -32,12 +36,12 @@ interface DocumentFile {
 
 interface DocumentCardProps {
     document: DocumentFile
-    // onDeleted: (documentId: string) => void
+    onDeleted: (documentId: string) => void
 }
 
 //need to add onDeleted in param
-const DocumentCard = ({ document }: DocumentCardProps) => {
-    // const [isDeleting, setIsDeleting] = useState(false)
+const DocumentCard = ({ document, onDeleted }: DocumentCardProps) => {
+    const [isDeleting, setIsDeleting] = useState(false)
     const [imageError, setImageError] = useState(false)
     const [loading, setLoading] = useState(false)
     const [file, setFile] = useState<Blob | null>(null)
@@ -71,42 +75,42 @@ const DocumentCard = ({ document }: DocumentCardProps) => {
         router.push(`/dashboard/files/${document.fileId}`)
     }
 
-    // const handleDownload = () => {
-    //     const link = window.document.createElement('a')
-    //     link.href = document.downloadUrl
-    //     link.download = document.name
-    //     link.click()
-    // }
+    const handleDownload = () => {
+        const link = window.document.createElement('a')
+        link.href = document.downloadUrl
+        link.download = document.name
+        link.click()
+    }
 
-    // const handleDelete = async () => {
-    //     if (!confirm('Are you sure you want to delete this document?')) return
-    //     setIsDeleting(true)
+    const handleDelete = async () => {
+        if (!confirm('Are you sure you want to delete this document?')) return
+        setIsDeleting(true)
 
-    //     try {
-    //         await databases.deleteDocument(
-    //             process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-    //             process.env.NEXT_PUBLIC_APPWRITE_FILES_COLLECTION_ID!,
-    //             document.$id
-    //         )
-    //         await storage.deleteFile(
-    //             process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ID!,
-    //             document.fileId
-    //         )
-    //         onDeleted(document.$id)
-    //         toast.success('Document Deleted!', {
-    //             description: 'Your file has been successfully removed.',
-    //             icon: <Trash className="text-red-500" />,
-    //             duration: 3000,
-    //             position: "top-center",
-    //             className: 'border border-red-300 bg-white text-gray-800 shadow-lg rounded-xl',
-    //         })
-    //     } catch (error) {
-    //         console.error('Delete error:', error)
-    //         toast.error('Failed to delete document.')
-    //     } finally {
-    //         setIsDeleting(false)
-    //     }
-    // }
+        try {
+            await databases.deleteDocument(
+                process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
+                process.env.NEXT_PUBLIC_APPWRITE_FILES_COLLECTION_ID!,
+                document.$id
+            )
+            await storage.deleteFile(
+                process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ID!,
+                document.fileId
+            )
+            onDeleted(document.$id)
+            toast.success('Document Deleted!', {
+                description: 'Your file has been successfully removed.',
+                icon: <Trash2 className="text-red-500" />,
+                duration: 3000,
+                position: "top-center",
+                className: 'border border-red-300 text-base bg-white text-gray-800 shadow-lg rounded-xl',
+            })
+        } catch (error) {
+            console.error('Delete error:', error)
+            toast.error('Failed to delete document.')
+        } finally {
+            setIsDeleting(false)
+        }
+    }
 
     return (
         <div className="group flex flex-col w-64 h-80 rounded-2xl bg-white shadow-md hover:shadow-lg transition-all border border-gray-200 overflow-hidden">
@@ -139,7 +143,7 @@ const DocumentCard = ({ document }: DocumentCardProps) => {
                             <span>{formatDate(document.createdAt)}</span>
                         </div>
                     </div>
-                    {/* <DropdownMenu>
+                    <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button
                                 variant="ghost"
@@ -159,11 +163,11 @@ const DocumentCard = ({ document }: DocumentCardProps) => {
                                 className="text-red-600 hover:text-red-700"
                                 disabled={isDeleting}
                             >
-                                <TrashIcon className="h-4 w-4 mr-2" />
+                                <Trash2Icon className="h-4 w-4 mr-2" />
                                 {isDeleting ? 'Deleting...' : 'Delete'}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
-                    </DropdownMenu> */}
+                    </DropdownMenu>
                 </div>
 
 

@@ -83,7 +83,7 @@ const FileUploader = () => {
             ) : (
                 <div
                     {...getRootProps()}
-                    className={`p-10 border-1 shadow-lg border-dashed mt-10 w-[75%] border-indigo-600 text-indigo-600 rounded-4xl h-85 flex items-center justify-center hover:bg-indigo-50 cursor-pointer ${isFocused || isDragActive ? 'bg-indigo-200' : 'bg-slate-50'
+                    className={`p-10 border-1 shadow-lg border-dashed mt-15 w-[75%] border-indigo-600 text-indigo-600 rounded-4xl h-85 flex items-center justify-center hover:bg-indigo-50 cursor-pointer ${isFocused || isDragActive ? 'bg-indigo-200' : 'bg-slate-50'
                         }`}
                 >
                     <div className="flex flex-col items-center justify-center">

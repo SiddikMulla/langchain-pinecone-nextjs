@@ -94,7 +94,11 @@ const UploadPage = () => {
         )
     }
 
-    return <FileUploader />
+    return (
+        <>
+            <FileUploader />
+        </>
+    )
 }
 
 export default UploadPage
