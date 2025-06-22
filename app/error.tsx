@@ -39,7 +39,7 @@ export default function GlobalError({
         if (error.message.includes('timeout')) {
             return 'Request timed out. Please try again.';
         }
-        return error.message;
+        return 'Something went wrong. Please try again or contact support if the problem persists.';
     };
 
     return (
