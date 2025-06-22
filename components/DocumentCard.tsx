@@ -96,7 +96,6 @@ const DocumentCard = ({ document, onDeleted }: DocumentCardProps) => {
             position: "top-center",
             className: "group toast-confirm",
             style: {
-                minWidth: '500px',
                 padding: '20px',
                 fontSize: '16px'
             },
