@@ -184,7 +184,7 @@ const Documents = () => {
             {!isSuperUser && (<div className="fixed z-50 flex items-center rounded-b-xl border border-gray-200 bg-white px-2 py-1 shadow-md backdrop-blur-sm right-4 sm:left-1/2 sm:-translate-x-1/2 sm:right-auto">
                 <span className="text-xs sm:text-sm text-gray-700">Free Tier</span>
                 <Dot className="text-gray-400" />
-                <Link href="/dashboard/upgrade" className="text-xs sm:text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">
+                <Link href="/dashboard/upgrade" className="text-xs sm:text-sm font-semibold text-indigo-600 hover:text-indigo-700 hover:font-extrabold transition-colors">
                     Upgrade Plan
                 </Link>
             </div>)}

@@ -55,25 +55,25 @@ const PlaceholderDocuments = ({
                 onClick={handleClick}
                 disabled={isDisabled}
                 className={`flex flex-col items-center justify-center 
-          w-full h-64 sm:w-64 sm:h-80 
+          w-full h-64 sm:w-64 sm:h-85 
           rounded-2xl bg-gradient-to-br cursor-pointer 
           ${isSuperUser
                         ? 'from-yellow-50 to-orange-100 hover:from-yellow-100 hover:to-orange-200 border-2 border-dashed border-yellow-300 hover:border-yellow-800'
-                        : 'from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 border-2 border-dashed border-gray-300 hover:border-blue-500'
+                        : 'from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 border-2 border-dashed border-gray-300 hover:border-indigo-500'
                     }
           hover:shadow-lg
           transition-all duration-300 ease-in-out
           disabled:opacity-50 disabled:cursor-not-allowed
           disabled:hover:shadow-none
-          ${isSuperUser ? 'text-yellow-700 hover:text-yellow-800' : 'text-gray-600 hover:text-blue-600'}
+          ${isSuperUser ? 'text-yellow-700 hover:text-yellow-800' : 'text-gray-600 hover:text-indigo-600'}
           transform hover:scale-[1.02] active:scale-[0.98]
-          focus:ring-4 focus:ring-blue-500/20 focus:outline-none`}
+          focus:ring-4 focus:ring-indigo-500/20 focus:outline-none`}
             >
                 {loading ? (
                     <div className="flex flex-col items-center space-y-4">
                         <div className="relative">
-                            <div className={`w-16 h-16 border-4 ${isSuperUser ? 'border-slate-300 border-t-slate-500' : 'border-gray-300 border-t-blue-500'} rounded-full animate-spin`}></div>
-                            <Upload className={`absolute inset-0 m-auto w-6 h-6 ${isSuperUser ? 'text-slate-500' : 'text-blue-500'}`} />
+                            <div className={`w-16 h-16 border-4 ${isSuperUser ? 'border-slate-300 border-t-slate-500' : 'border-gray-300 border-t-indigo-500'} rounded-full animate-spin`}></div>
+                            <Upload className={`absolute inset-0 m-auto w-6 h-6 ${isSuperUser ? 'text-slate-500' : 'text-indigo-500'}`} />
                         </div>
                         <p className="text-sm font-medium">Preparing upload...</p>
                     </div>
@@ -99,13 +99,13 @@ const PlaceholderDocuments = ({
                                 style={{ width: 60, height: 60 }}
                                 className={`${isSuperUser
                                     ? 'text-yellow-600 group-hover:text-yellow-700'
-                                    : 'text-gray-400 group-hover:text-blue-500'
+                                    : 'text-gray-400 group-hover:text-indigo-500'
                                     } transition-colors duration-200`}
                             />
                             {isSuperUser ? (
                                 <Crown className="absolute -top-2 -right-2 w-6 h-6 text-yellow-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                             ) : (
-                                <Sparkles className="absolute -top-2 -right-2 w-6 h-6 text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                                <Sparkles className="absolute -top-2 -right-2 w-6 h-6 text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                             )}
                         </div>
                         <div className="text-center">
@@ -138,7 +138,7 @@ const PlaceholderDocuments = ({
                                 ? 'bg-orange-500'
                                 : progressPercentage >= 80
                                     ? 'bg-orange-500'
-                                    : 'bg-blue-500'
+                                    : 'bg-indigo-500'
                                 }`}
                             style={{ width: `${Math.min(progressPercentage, 100)}%` }}
                         />

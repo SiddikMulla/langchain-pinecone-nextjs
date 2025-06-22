@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation"
 import { databases, storage } from "@/lib/appwrite-client"
 import {
     FileTextIcon,
-    EyeIcon,
     CalendarIcon,
     MoreVerticalIcon,
     DownloadIcon,
@@ -170,9 +169,9 @@ const DocumentCard = ({ document, onDeleted }: DocumentCardProps) => {
         }
     };
     return (
-        <div className="group flex flex-col w-64 h-80 rounded-2xl bg-white shadow-md hover:shadow-lg transition-all border border-gray-200 overflow-hidden">
+        <div className="group flex flex-col w-64 h-85 rounded-3xl bg-white shadow-sm shadow-slate-400 hover:shadow-md transition-all border border-gray-200 overflow-hidden">
             {/* PDF Preview Section */}
-            <div className="relative h-52 bg-gray-100 rounded-t-2xl overflow-hidden">
+            <div className="relative h-62 bg-gray-100 rounded-t-2xl overflow-hidden">
                 {!imageError && file ? (
                     <Document
                         file={file}
@@ -212,7 +211,7 @@ const DocumentCard = ({ document, onDeleted }: DocumentCardProps) => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuItem onClick={handleDownload}>
-                                <DownloadIcon className="h-4 w-4 mr-2" />
+                                <DownloadIcon className="h-4 w-4" />
                                 Download
                             </DropdownMenuItem>
                             <DropdownMenuItem
@@ -220,7 +219,7 @@ const DocumentCard = ({ document, onDeleted }: DocumentCardProps) => {
                                 className="text-red-600 hover:text-red-700"
                                 disabled={isDeleting}
                             >
-                                <Trash2Icon className="h-4 w-4 mr-2" />
+                                <Trash2Icon color="red" className="h-4 w-4" />
                                 {isDeleting ? 'Deleting...' : 'Delete'}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -232,13 +231,13 @@ const DocumentCard = ({ document, onDeleted }: DocumentCardProps) => {
                     <Button
                         onClick={handleView}
                         size="sm"
-                        className="bg-indigo-700 hover:bg-indigo-900 cursor-pointer text-white flex-1 mr-2"
+                        className="bg-gradient-to-r from-indigo-700 to-blue-700 hover:bg-indigo-900 cursor-pointer text-white flex-1 mx-3"
                     >
                         {loading ?
                             <>
                                 <span className="loading loading-ring loading-md"></span>
                             </> :
-                            <EyeIcon style={{ width: 30, height: 23 }} />
+                            <span>View Previous Chats</span>
                         }
                     </Button>
 

@@ -11,7 +11,6 @@ interface Props {
 
 const ChatWithPDFPage = async ({ params }: Props) => {
     auth.protect()
-    // const { userId } = await auth();
     const { fileId } = await params;
     const document = await adminDatabases.getDocument(
         process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
