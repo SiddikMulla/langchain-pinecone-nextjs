@@ -21,7 +21,7 @@ const PlaceholderDocuments = ({
     const router = useRouter()
     const { user } = useUser()
 
-    const superUser = 'user_2wmR5zMqRt8v4bJp3zBDvlx6vv8'
+    const superUser = 'user_2ysIuMg2ag3Cf17mBeZH08xIR5C'
     const isSuperUser = user?.id === superUser
 
     const handleClick = async () => {

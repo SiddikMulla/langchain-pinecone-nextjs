@@ -40,7 +40,7 @@ const Documents = () => {
     const [refreshing, setRefreshing] = useState(false)
     const { user } = useUser()
 
-    const superUser = 'user_2wmR5zMqRt8v4bJp3zBDvlx6vv8'
+    const superUser = 'user_2ysIuMg2ag3Cf17mBeZH08xIR5C'
 
     // Configuration for free tier limits
     const MAX_FREE_DOCUMENTS = 5

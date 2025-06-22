@@ -11,7 +11,7 @@ import FileUploader from '@/components/FileUploader'
 import Link from 'next/link'
 
 const MAX_FREE_DOCUMENTS = 5
-const SUPER_USER_ID = 'user_2wmR5zMqRt8v4bJp3zBDvlx6vv8'
+const SUPER_USER_ID = 'user_2ysIuMg2ag3Cf17mBeZH08xIR5C'
 
 const UploadPage = () => {
     const router = useRouter()
