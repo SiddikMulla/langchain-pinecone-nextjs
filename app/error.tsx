@@ -66,7 +66,7 @@ export default function GlobalError({
                         <div className='flex justify-center gap-4'>
                             {/* Action Button */}
                             <Button
-                                onClick={() => router.back()}
+                                onClick={() => router.replace('/dashboard')}
                                 size={'lg'}
                                 className='font-semibold py-3 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 disabled:transform-none'
                             >
