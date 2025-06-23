@@ -25,9 +25,12 @@ const PdfView = ({ url }: { url: string }) => {
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [file, setFile] = useState<Blob | null>(null);
     const [rotation, setRotation] = useState<number>(0);
-    const [scale, setScale] = useState<number>(1);
-
-
+   const [scale, setScale] = useState<number>(() => {
+        if (typeof window !== "undefined") {
+            return window.innerWidth < 640 ? 0.75 : 1; // sm breakpoint
+        }
+        return 1;
+    });
     useEffect(() => {
         const fetchFile = async () => {
             const response = await fetch(url)
