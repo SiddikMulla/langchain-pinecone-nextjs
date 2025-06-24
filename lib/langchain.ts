@@ -23,11 +23,11 @@ import { Document } from "@langchain/core/documents";
 
 // Optimized model configuration for faster responses
 const model = new ChatGroq({
-    apiKey: process.env.GROQ_API_KEY!,
-    model: "llama-3.1-8b-instant", // Smaller, faster model
-    // temperature: 0.1, // Lower temperature for more focused responses
-    // maxTokens: 1024, // Limit response length for speed
-    // streaming: false, // Disable streaming for simpler implementation
+  apiKey: process.env.GROQ_API_KEY!,
+  model: "llama-3.1-8b-instant", // or stick with "llama-3.1-8b-instant"
+  temperature: 0.1,
+  maxTokens: 512,
+  streaming: true, // if UI supports streaming
 });
 
 // Alternative faster models you can try:
