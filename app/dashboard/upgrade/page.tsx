@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Check, FileText, Zap, Clock, Star, Users } from 'lucide-react';
 import { loadStripe } from '@stripe/stripe-js';
+import Link from 'next/link';
 
 const PricingSection = () => {
     const [isAnnual, setIsAnnual] = useState(false);
@@ -209,12 +210,12 @@ const PricingSection = () => {
                                         plan.buttonText}
                                     </button>
                                 ) : (
-                                    <a
-                                        href={plan.buttonLink}
-                                        className={`w-full ${plan.buttonStyle} font-medium py-3 px-4 rounded-lg transition-colors inline-block text-center`}
+                                   <Link
+                                      href={plan.buttonLink}
+                                      className={`w-full ${plan.buttonStyle} font-medium py-3 px-4 rounded-lg transition-colors inline-block text-center`}
                                     >
-                                        {plan.buttonText}
-                                    </a>
+                                      {plan.buttonText}
+                                    </Link>
                                 )}
 
                             </div>
