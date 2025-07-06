@@ -14,6 +14,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import landingIMG from '@/public/landing.png'
+import UpdateNotificationHeader from "@/components/newUpdates";
 
 const features = [
   {
@@ -61,6 +62,7 @@ export default function Home() {
   return (
     <>
       <div className="flex-1 overflow-scroll p-1 lg:p-2 bg-gradient-to-bl from-violet-500 via-indigo-400 to-purple-700">
+        <UpdateNotificationHeader />
         <main className="flex-1 overflow-y-auto bg-white">
           {/* Hero Section */}
           <section className="relative px-4 pt-16 pb-20 sm:px-6 lg:px-8 lg:pt-24 lg:pb-28">
@@ -86,7 +88,7 @@ export default function Home() {
                   </span>
                 </h1>
 
-                <p className="mx-auto mt-8 max-w-3xl text-xl leading-relaxed text-gray-600 sm:text-2xl">
+                <p className="mx-auto mt-8 max-w-3xl text-xl leading-relaxed text-gray-700 sm:text-xl">
                   Experience the future of document interaction with AI that understands context,
                   remembers conversations, and delivers insights at the speed of thought.
                 </p>
@@ -100,7 +102,7 @@ export default function Home() {
                   </Button>
                 </div>
 
-                <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-gray-500">
+                <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-gray-600 tracking-wide">
                   {benefits.map((benefit, index) => (
                     <div key={index} className="flex items-center gap-2">
                       <CheckCircleIcon className="h-4 w-4 text-green-500" />

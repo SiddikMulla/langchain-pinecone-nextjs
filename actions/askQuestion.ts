@@ -3,6 +3,7 @@
 import { Message } from "@/components/ChatScreen";
 import { adminDatabases } from "@/lib/appwrite-admin";
 import { generateLangchainCompletion } from "@/lib/langchain";
+import { generateSpeechAsDataUrl } from "@/lib/tts";
 import { auth } from "@clerk/nextjs/server"
 import { ID, Query, Permission, Role, IndexType } from "node-appwrite";
 
@@ -70,6 +71,14 @@ async function ensureCollectionExists() {
                     true
                 );
 
+                await adminDatabases.createStringAttribute(
+                    databaseId,
+                    chatCollection,
+                    'audioUrl',
+                    50000, // Larger size for base64 data URLs
+                    false // not required
+                );
+
                 await adminDatabases.createDatetimeAttribute(
                     databaseId,
                     chatCollection,
@@ -116,7 +125,7 @@ async function ensureCollectionExists() {
 
 console.log('Database ID:', databaseId);
 
-export async function askQuestion(id: string, question: string) {
+export async function askQuestion(id: string, question: string, generateAudio: boolean = false) {
     auth.protect();
     const { userId } = await auth();
 
@@ -131,7 +140,7 @@ export async function askQuestion(id: string, question: string) {
         // Now proceed with the original logic
         const userMessages = await adminDatabases.listDocuments(databaseId, chatCollection, [
             Query.equal("userId", userId),
-            Query.equal("docId", id), // Changed from "fileId" to "docId" to match your langchain file
+            Query.equal("docId", id),
             Query.equal("role", "human"),
         ]);
 
@@ -144,7 +153,7 @@ export async function askQuestion(id: string, question: string) {
 
         await adminDatabases.createDocument(databaseId, chatCollection, ID.unique(), {
             userId,
-            docId: id, // Changed from 'id' to 'docId' to be more descriptive
+            docId: id,
             role: userMessage.role,
             message: userMessage.message,
             createdAt: userMessage.createdAt.toISOString(),
@@ -157,24 +166,50 @@ export async function askQuestion(id: string, question: string) {
             new Promise((_, reject) =>
                 setTimeout(() => reject(new Error("Response generation timed out")), 60000) // 60 second timeout
             )
-        ]) as any;
+        ]) as string;
         console.log("--- AI response generated successfully ---");
+
+        // Generate audio if requested
+        let audioUrl: string | null = null;
+        if (generateAudio && reply && reply.trim().length > 0) {
+            try {
+                console.log("--- Generating audio for response ---");
+
+                // Check if GROQ_API_KEY is available
+                if (!process.env.GROQ_API_KEY) {
+                    console.warn("GROQ_API_KEY not available, skipping audio generation");
+                } else {
+                    // Generate audio as data URL directly
+                    audioUrl = await generateSpeechAsDataUrl({
+                        text: reply,
+                        voice: "Aaliyah-PlayAI",
+                        responseFormat: "wav",
+                    });
+                    console.log("--- Audio generated successfully as data URL ---");
+                }
+            } catch (audioError) {
+                console.error("Audio generation failed:", audioError);
+                // Continue without audio if TTS fails
+            }
+        }
 
         const aiMessage: Message = {
             role: 'ai',
             message: reply,
             createdAt: new Date(),
+            audioUrl: audioUrl || undefined,
         };
 
         await adminDatabases.createDocument(databaseId, chatCollection, ID.unique(), {
             userId,
-            docId: id, // Changed from 'id' to 'docId' to be more descriptive
+            docId: id,
             role: aiMessage.role,
             message: aiMessage.message,
             createdAt: aiMessage.createdAt.toISOString(),
+            audioUrl: audioUrl || undefined,
         });
 
-        return { success: true, message: reply };
+        return { success: true, message: reply, audioUrl };
     } catch (error) {
         console.error('Error in askQuestion:', error);
         return { success: false, message: "An error occurred while processing your question." };

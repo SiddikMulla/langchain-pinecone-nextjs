@@ -37,7 +37,7 @@ const PlaceholderDocuments = ({
         setLoading(true)
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 300)) // Smooth transition
+            await new Promise(resolve => setTimeout(resolve, 200)) // Smooth transition
             router.push('/dashboard/upload')
         } catch (error) {
             console.error('Navigation error:', error)
