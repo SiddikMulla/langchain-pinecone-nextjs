@@ -762,11 +762,11 @@ const ChatScreen = ({ id }: { id: string }) => {
 
                         {/* Action buttons for AI messages */}
                         {!isHuman && !isPlaceholder && (
-                            <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute -bottom-8 left-0 flex gap-1">
+                            <div className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity absolute -bottom-8 left-0 flex ">
                                 <Button
                                     variant="ghost"
                                     size="sm"
-                                    className="h-6 px-2 text-gray-400 hover:text-gray-600"
+                                    className="h-6 px-1 text-gray-400 hover:text-gray-600"
                                     onClick={() => copyToClipboard(message.message, messageId)}
                                 >
                                     <Copy className="h-5 w-5" />
@@ -780,7 +780,7 @@ const ChatScreen = ({ id }: { id: string }) => {
                                     <Button
                                         variant="ghost"
                                         size="sm"
-                                        className="h-6 px-2 text-gray-400 hover:text-blue-600"
+                                        className="h-6 px-1 text-gray-400 hover:text-blue-600"
                                         onClick={() => playAudio(messageId, message.audioUrl!)}
                                         disabled={isGeneratingAudioForThis}
                                     >
@@ -801,12 +801,13 @@ const ChatScreen = ({ id }: { id: string }) => {
                                         {isGeneratingAudioForThis ? (
                                             <Loader2Icon className="h-3 w-3 animate-spin" />
                                         ) : (
-                                            <Volume2 className="h-3 w-3" />
+                                            <Volume2 className="h-6 w-6" />
                                         )}
                                     </Button>
                                 )}
                             </div>
                         )}
+
                     </div>
                 </div>
             </div>
@@ -953,10 +954,10 @@ const ChatScreen = ({ id }: { id: string }) => {
                 onSubmit={handleSubmit}
                 className="bg-white border-t border-gray-200 p-4"
             >
-                <div className="flex gap-3 max-w-4xl mx-auto">
+                <div className="flex gap-3 items-center max-w-4xl mx-auto">
                     <div className="flex-1 relative">
                         <Input
-                            className="pr-12 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-full py-6 px-4"
+                            className="pr-12 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-2xl py-6 px-4"
                             placeholder={`Ask me anything about your document, ${user?.firstName || 'there'}...`}
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
