@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
         if (error.message.includes('Invalid API key')) {
             errorMessage = 'There was a problem connecting to the speech service. Please try again later.';
         } else if (error.message.includes('Rate limit')) {
-            errorMessage = 'You’ve reached your daily limit for speech generation. Upgrade to Pro for higher limits.';
+            errorMessage = 'You’ve reached your daily limit. Upgrade to Pro!';
         } else if (error.message.includes('Invalid request')) {
             errorMessage = 'The input provided was not valid. Please check your text and try again.';
         }

@@ -65,11 +65,11 @@ const Header = () => {
                         <Button
                             asChild
                             variant='default'
-                            className="bg-gradient-to-r from-indigo-700 to-violet-800 hover:from-indigo-700 hover:via-blue-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group relative overflow-hidden"
+                            className="bg-gradient-to-r from-indigo-700 to-violet-800 hover:from-indigo-700 hover:via-indigo-900 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group relative overflow-hidden"
                         >
                             <Link href='/dashboard/upgrade' className="relative z-10">
                                 <Crown className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" />
-                                <span className="font-semibold">Pricing</span>
+                                <span className="font-semibold">Upgrade</span>
                             </Link>
                         </Button>
 

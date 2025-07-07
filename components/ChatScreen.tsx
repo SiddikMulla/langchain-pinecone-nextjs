@@ -3,16 +3,22 @@
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import { Badge } from "./ui/badge"
-import { Loader2Icon, SendIcon, AlertCircle, Bot, User, Sparkles, Copy, MessageCircle, BrainCircuitIcon, Pause, Play, Volume2, VolumeX, X, RotateCcw, SkipForward, Mic } from "lucide-react"
+import {
+    Loader2Icon, SendIcon, AlertCircle, Bot, User,
+    Copy,
+    MessageCircle,
+    BrainCircuitIcon,
+    Pause,
+    Play, Volume2,
+    X, RotateCcw,
+    SkipForward, Mic
+} from "lucide-react"
 import { useUser } from "@clerk/nextjs"
 import { databases, Query } from "@/lib/appwrite-client"
 import { FormEvent, useEffect, useState, useTransition, useRef } from "react"
 import { askQuestion } from "@/actions/askQuestion"
 import ReactMarkdown from 'react-markdown'
 import { toast } from "sonner"
-import { Switch } from "./ui/switch"
-import { Label } from "./ui/label"
 
 export type Message = {
     id?: string;
@@ -235,7 +241,6 @@ const ChatScreen = ({ id }: { id: string }) => {
     const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
 
     // TTS related states
-    const [ttsEnabled, setTtsEnabled] = useState(false);
     const [currentlyPlayingId, setCurrentlyPlayingId] = useState<string | null>(null);
     const [isGeneratingAudio, setIsGeneratingAudio] = useState<string | null>(null);
     const [audioProgress, setAudioProgress] = useState<{ [key: string]: number }>({});
@@ -329,7 +334,7 @@ const ChatScreen = ({ id }: { id: string }) => {
         startTransition(async () => {
             try {
                 // Pass the TTS enabled state to the askQuestion function
-                const { success, message, audioUrl } = await askQuestion(id, q, ttsEnabled);
+                const { success, message, audioUrl } = await askQuestion(id, q);
 
                 if (success) {
                     // Replace placeholder with AI response
@@ -346,7 +351,7 @@ const ChatScreen = ({ id }: { id: string }) => {
                     });
 
                     // If audio was generated and TTS is enabled, play it automatically with modal
-                    if (audioUrl && ttsEnabled) {
+                    if (audioUrl) {
                         // Small delay to ensure the message is rendered
                         setTimeout(() => {
                             setCurrentPlayingMessage(message || "");
@@ -497,7 +502,7 @@ const ChatScreen = ({ id }: { id: string }) => {
 
         } catch (error: any) {
             console.error('Audio generation failed:', error);
-            toast.error(`Failed to generate audio: ${error.message}`);
+            toast.error(`${error.message}`);
         } finally {
             setIsGeneratingAudio(null);
         }
@@ -646,14 +651,14 @@ const ChatScreen = ({ id }: { id: string }) => {
                 {/* Avatar */}
                 <div className="flex-shrink-0">
                     {isHuman ? (
-                        <Avatar className="h-8 w-8">
+                        <Avatar className="h-6 w-6">
                             <AvatarImage src={user?.imageUrl} alt={user?.firstName || 'User'} />
                             <AvatarFallback className="bg-blue-500 text-white text-xs font-medium">
                                 {getUserInitials()}
                             </AvatarFallback>
                         </Avatar>
                     ) : (
-                        <div className="h-8 w-8 rounded-full bg-gradient-to-r from-indigo-500 to-blue-600 flex items-center justify-center">
+                        <div className="h-7 w-7 rounded-full bg-gradient-to-r from-indigo-500 to-blue-600 flex items-center justify-center">
                             {isPlaceholder ? (
                                 <Loader2Icon className="h-4 w-4 text-white animate-spin" />
                             ) : (
@@ -685,7 +690,7 @@ const ChatScreen = ({ id }: { id: string }) => {
 
                     {/* Message Bubble */}
                     <div className={`relative rounded-2xl px-4 py-3 shadow-sm ${isHuman
-                        ? 'bg-blue-600 text-white rounded-tr-md'
+                        ? 'bg-indigo-600 text-white rounded-tr-md'
                         : isPlaceholder
                             ? 'bg-gray-100 text-gray-600 rounded-tl-md animate-pulse'
                             : 'bg-white border border-gray-200 text-gray-800 rounded-tl-md'
@@ -843,41 +848,7 @@ const ChatScreen = ({ id }: { id: string }) => {
                 onTogglePlayPause={handleTogglePlayPause}
             />
             {/* Chat Header */}
-            <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    {/* <div className="h-8 w-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center"> */}
-                    <Sparkles className="h-5 w-5 text-indigo-800" />
-                    {/* </div> */}
-                    <div>
-                        <h3 className="font-bold text-gray-900">
-                            <span className="text-indigo-600">Docu</span>Chat
-                        </h3>
-                    </div>
-                </div>
-                <div className="flex items-center gap-4">
-                    {/* TTS Toggle */}
-                    <div className="flex items-center space-x-2">
-                        <Switch
-                            id="tts-mode"
-                            checked={ttsEnabled}
-                            onCheckedChange={setTtsEnabled}
-                        />
-                        <Label htmlFor="tts-mode" className="text-sm font-medium cursor-pointer">
-                            {ttsEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
-                        </Label>
-                        <span className="text-xs text-gray-500">
-                            {ttsEnabled ? "Audio On" : "Audio Off"}
-                        </span>
-                    </div>
-
-                    <Badge variant="outline" className="text-green-700 border-green-700">
-                        <div className="h-2 w-2 bg-green-700 rounded-full mr-2"></div>
-                        Online
-                    </Badge>
-                </div>
-            </div>
-
-
+            <div className="bg-slate-50 py-3 flex items-center justify-between" />
             {/* Error Banner */}
             {error && (
                 <div className="bg-red-50 border-b border-red-200 text-red-700 px-4 py-3 flex items-center gap-2">
