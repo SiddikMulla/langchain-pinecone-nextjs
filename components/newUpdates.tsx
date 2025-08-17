@@ -30,7 +30,7 @@ const UpdateNotificationHeader = () => {
 
                     <div className="flex items-start space-x-2 mb-2">
                         <span className="font-medium text-sm leading-tight tracking-wide">
-                            <strong>DocuChat now supports Text-to-Speech!</strong> Listen to your document responses.
+                            <strong>now supports Text-to-Speech!</strong> Listen to your document responses.
                         </span>
                     </div>
 
@@ -49,7 +49,7 @@ const UpdateNotificationHeader = () => {
                             </div>
                             <div className="flex items-center space-x-2 min-w-0">
                                 <span className="font-medium text-sm truncate">
-                                    <strong>DocuChat now supports Text-to-Speech!</strong> Listen to responses with AI voices.
+                                    <strong>now supports Text-to-Speech!</strong> Listen to responses with AI voices.
                                 </span>
                             </div>
                         </div>
@@ -78,7 +78,7 @@ const UpdateNotificationHeader = () => {
                             <div className="flex items-center space-x-2">
                                 <Volume2 className="h-5 w-5 text-white" />
                                 <span className="font-medium text-base">
-                                    <strong>DocuChat now supports Text-to-Speech!</strong> Listen to your document responses with natural AI voices.
+                                    <strong>now supports Text-to-Speech!</strong> Listen to your document responses with natural AI voices.
                                 </span>
                             </div>
                         </div>

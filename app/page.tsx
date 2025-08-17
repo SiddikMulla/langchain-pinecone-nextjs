@@ -96,7 +96,7 @@ export default function Home() {
                 <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
                   <Button asChild size="lg" className="group relative bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-15 py-6 text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
                     <Link href='/dashboard' className="flex items-center gap-3">
-                      Start Free Trial
+                      Get Started
                       <ArrowRightIcon className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" />
                     </Link>
                   </Button>
