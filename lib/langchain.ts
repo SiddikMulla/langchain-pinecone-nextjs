@@ -23,12 +23,15 @@ import { Document } from "@langchain/core/documents";
 
 // Optimized model configuration for faster responses
 const model = new ChatGroq({
-   apiKey: process.env.GROQ_API_KEY!,
-    model: "llama-3.3-70b-versatile", // or stick with "llama-3.1-8b-instant"
-    temperature: 0.1,
-    maxTokens: 512,
-    streaming: true, // if UI supports streaming
-});
+    apiKey: process.env.GROQ_API_KEY!,
+    model: "openai/gpt-oss-120b", // Your target model
+    temperature: 0.0,      // Deterministic, avoids rambling
+    maxTokens: 512,        // Keep short, faster response
+    streaming: true,       // Enable immediate token streaming in UI
+    presencePenalty: 0,    // Keep answers focused
+    frequencyPenalty: 0,   // Avoid repetition penalty if you want speed
+    timeout: 20000,
+})
 
 // Alternative faster models you can try:
 // const model = new ChatOpenAI({
