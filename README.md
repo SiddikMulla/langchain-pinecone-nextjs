@@ -1,48 +1,76 @@
-# ⚡ Node.js Starter Function
+# AI Semantic Search — LangChain + Pinecone + Next.js
 
-A simple starter function. Edit `src/main.js` to get started and create something awesome! 🚀
+An AI-powered conversational search app built with a full RAG (Retrieval-Augmented Generation) pipeline. Ask questions in natural language and get answers grounded in your own documents using vector search.
 
-## 🧰 Usage
+**Live demo:** [chat.siddik.tech](https://chat.siddik.tech)
 
-### GET /ping
+---
 
-- Returns a "Pong" message.
+## Features
 
-**Response**
+- **RAG pipeline** — documents are chunked, embedded, and stored in Pinecone vector DB
+- **Conversational AI** — multi-turn chat powered by OpenAI via LangChain
+- **Next.js App Router** — streaming responses with server actions
+- **Auth** — Clerk authentication
+- **UI** — Tailwind CSS + shadcn/ui components
 
-Sample `200` Response:
+##  Architecture
+User Query
+↓ 
+Next.js API Route
+↓
+LangChain ConversationalRetrievalChain
+↓                    ↓
+OpenAI Embeddings   Pinecone Vector Store
+↓                    ↓
+OpenAI LLM (GPT)
+↓
+Streamed Response
 
-```text
-Pong
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | Next.js 14 (App Router), TypeScript |
+| AI / LLM | LangChain.js, OpenAI GPT |
+| Vector DB | Pinecone |
+| Auth | Clerk |
+| Styling | Tailwind CSS, shadcn/ui |
+| Formatter | Prettier |
+
+## Getting Started
+
+### 1. Clone & install
+
+```bash
+git clone https://github.com/SiddikMulla/langchain-pinecone-nextjs.git
+cd langchain-pinecone-nextjs
+npm install
 ```
 
-### GET, POST, PUT, PATCH, DELETE /
+### 2. Set up environment variables
 
-- Returns a "Learn More" JSON response.
-
-**Response**
-
-Sample `200` Response:
-
-```json
-{
-  "motto": "Build like a team of hundreds_",
-  "learn": "https://appwrite.io/docs",
-  "connect": "https://appwrite.io/discord",
-  "getInspired": "https://builtwith.appwrite.io"
-}
+```bash
+cp sampleEnv .env.local
 ```
 
-## ⚙️ Configuration
+Fill in your keys:
 
-| Setting           | Value         |
-| ----------------- | ------------- |
-| Runtime           | Node (18.0)   |
-| Entrypoint        | `src/main.js` |
-| Build Commands    | `npm install` |
-| Permissions       | `any`         |
-| Timeout (Seconds) | 15            |
+```env
+OPENAI_API_KEY=
+PINECONE_API_KEY=
+PINECONE_INDEX=
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+```
 
-## 🔒 Environment Variables
+### 3. Run locally
 
-No environment variables required.
+```bash
+npm run dev
+```
+## 📄 License
+
+MIT
+Open [http://localhost:3000](http://localhost:3000)
+
